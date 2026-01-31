@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso | Portafolio Seguridad</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #D4F8FF; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(3,83,97,0.15); width: 350px; text-align: center; border-top: 6px solid #035361; }
+        h2 { color: #035361; margin-bottom: 1.5rem; }
+        .hint { background: #9DECFA; font-size: 0.85rem; padding: 12px; border-radius: 6px; margin-bottom: 20px; color: #035361; border: 1px solid #56B6C7; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #56B6C7; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        button { width: 100%; padding: 12px; background: #035361; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
+        button:hover { background: #228394; }
+        #error-msg { color: #d93025; font-size: 0.9rem; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h2>🔒 Security Portafolio</h2>
+        <div class="hint">🔑 <strong>Acceso de prueba:</strong><br>Usuario: admin | Password: admin</div>
+        
+        <form id="loginForm">
+            <input type="text" id="usuario" placeholder="Usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">INGRESAR</button>
+        </form>
+        <p id="error-msg">Credenciales incorrectas. Intenta de nuevo.</p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('usuario').value;
+            const pass = document.getElementById('password').value;
+
+            // Validación en el lado del cliente (Necesaria para GitHub Pages)
+            if (user === "admin" && pass === "admin") {
+                sessionStorage.setItem('loggedin', 'true');
+                window.location.href = "inicio.html"; // Redirige a la página principal
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

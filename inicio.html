@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Portafolio Seguridad Informática</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #035361; --secondary: #228394; --accent: #56B6C7; --light: #9DECFA; --bg: #D4F8FF; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg); color: #333; line-height: 1.6; }
+        
+        header { background: var(--primary); color: white; padding: 2.5rem; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        nav { background: var(--secondary); padding: 12px; text-align: center; position: sticky; top: 0; z-index: 1000; }
+        nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: var(--light); }
+
+        .container { max-width: 900px; margin: 2rem auto; background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        
+        h2 { border-left: 6px solid var(--primary); padding-left: 15px; color: var(--primary); margin-top: 2rem; }
+        .grid-tech { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: var(--bg); padding: 20px; border-radius: 10px; margin-top: 1rem; }
+
+        /* Formulario Estilo */
+        .form-group { display: flex; flex-direction: column; margin-bottom: 15px; }
+        input, textarea { padding: 12px; border: 1.5px solid var(--accent); border-radius: 6px; font-size: 1rem; }
+        .btn-send { background: var(--primary); color: white; border: none; padding: 15px; cursor: pointer; border-radius: 6px; font-weight: bold; font-size: 1rem; transition: 0.3s; }
+        .btn-send:hover { background: var(--secondary); transform: translateY(-2px); }
+        
+        /* Footer y SSL */
+        footer { background: var(--primary); color: white; text-align: center; padding: 2.5rem; margin-top: 4rem; }
+        .ssl-badge { display: inline-flex; align-items: center; background: rgba(255,255,255,0.1); padding: 8px 15px; border-radius: 20px; margin-top: 15px; font-size: 0.85rem; border: 1px solid var(--light); }
+        .ssl-badge i { margin-right: 8px; color: #4CAF50; } /* Candado verde */
+    </style>
+    <script>
+        // "Guardian" de sesión en JavaScript
+        if (sessionStorage.getItem('loggedin') !== 'true') {
+            window.location.href = "index.html";
+        }
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>Portafolio Digital de Evidencias</h1>
+        <p><strong>CNO V – Seguridad Informática</strong></p>
+        <p>Estudiante: [Tu Nombre] | Institución: [Tu Universidad] | 2026</p>
+    </header>
+
+    <nav>
+        <a href="#inicio">INICIO</a>
+        <a href="#" style="opacity: 0.5; cursor: not-allowed;">PF02</a>
+        <a href="#" style="opacity: 0.5; cursor: not-allowed;">PF03</a>
+        <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" style="color: #FFCDD2;">CERRAR SESIÓN</a>
+    </nav>
+
+    <div class="container" id="inicio">
+        <section>
+            <h2>Presentación del Portafolio</h2>
+            <p>Este espacio académico documenta el aprendizaje en <strong>Seguridad Informática</strong>. El enfoque principal incluye análisis de vulnerabilidades, protocolos de seguridad y la implementación de defensas técnicas en entornos web competitivos.</p>
+        </section>
+
+        <section>
+            <h2>Información Técnica Básica</h2>
+            <div class="grid-tech">
+                <div><strong>Tecnologías:</strong><br>HTML5, CSS3, JavaScript (ES6)</div>
+                <div><strong>Infraestructura:</strong><br>GitHub Pages (Static Hosting)</div>
+                <div><strong>Control de Acceso:</strong><br>SessionStorage Simulation</div>
+                <div><strong>Envío de Datos:</strong><br>API Externa (Formspree)</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Contacto</h2>
+            <form action="https://formspree.io/f/tu-id-aqui" method="POST">
+                <div class="form-group">
+                    <input type="text" name="name" placeholder="Tu Nombre Completo" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Correo Electrónico" required>
+                </div>
+                <div class="form-group">
+                    <textarea name="message" rows="4" placeholder="Mensaje o Consulta Técnica" required></textarea>
+                </div>
+                <button type="submit" class="btn-send">ENVIAR EVIDENCIA DE CONTACTO</button>
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 - Portafolio de Seguridad Informática</p>
+        <div class="ssl-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Sitio protegido con Certificado SSL / TLS (HTTPS)</span>
+        </div>
+    </footer>
+
+</body>
+</html>
