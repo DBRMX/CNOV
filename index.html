@@ -2,41 +2,46 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso | Portafolio Seguridad</title>
+    <title>Acceso | Portafolio CNO V Seguridad Informatica</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #D4F8FF; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(3,83,97,0.15); width: 350px; text-align: center; border-top: 6px solid #035361; }
-        h2 { color: #035361; margin-bottom: 1.5rem; }
-        .hint { background: #9DECFA; font-size: 0.85rem; padding: 12px; border-radius: 6px; margin-bottom: 20px; color: #035361; border: 1px solid #56B6C7; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 1.5px solid #56B6C7; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
-        button { width: 100%; padding: 12px; background: #035361; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 10px; transition: 0.3s; }
-        button:hover { background: #228394; }
-        #error-msg { color: #d93025; font-size: 0.9rem; margin-top: 15px; display: none; }
+        :root { --primary: #035361; --secondary: #228394; --accent: #56B6C7; --bg: #D4F8FF; }
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: var(--bg) url('https://multiplepage-portfolio.edgeone.app/assets/images/tech-background-light.svg') center/cover;
+            display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; 
+        }
+        .login-card { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 3rem; border-radius: 15px; 
+            box-shadow: 0 15px 35px rgba(3,83,97,0.2); 
+            width: 380px; text-align: center; border-bottom: 8px solid var(--primary);
+            backdrop-filter: blur(5px);
+        }
+        h2 { color: var(--primary); letter-spacing: 1px; }
+        .hint { background: var(--light); font-size: 0.85rem; padding: 12px; border-radius: 8px; margin-bottom: 25px; color: var(--primary); border: 1px solid var(--accent); }
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 1.5px solid var(--accent); border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.4s; margin-top: 15px; }
+        button:hover { background: var(--secondary); letter-spacing: 2px; }
+        #error-msg { color: #d93025; display: none; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="login-card">
-        <h2>🔒 Security Portafolio</h2>
-        <div class="hint">🔑 <strong>Acceso de prueba:</strong><br>Usuario: admin | Password: admin</div>
-        
+        <h2>🛡️ INICIO DE SESIÓN</h2>
+        <div class="hint">🔑 <strong>Acceso (prueba):</strong><br>user: admin | pass: admin</div>
         <form id="loginForm">
             <input type="text" id="usuario" placeholder="Usuario" required>
             <input type="password" id="password" placeholder="Contraseña" required>
-            <button type="submit">INGRESAR</button>
+            <button type="submit">AUTENTICAR</button>
         </form>
-        <p id="error-msg">Credenciales incorrectas. Intenta de nuevo.</p>
+        <p id="error-msg">Acceso denegado. Intenta de nuevo.</p>
     </div>
-
     <script>
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const user = document.getElementById('usuario').value;
-            const pass = document.getElementById('password').value;
-
-            // Validación en el lado del cliente (Necesaria para GitHub Pages)
-            if (user === "admin" && pass === "admin") {
+            if (document.getElementById('usuario').value === "admin" && document.getElementById('password').value === "admin") {
                 sessionStorage.setItem('loggedin', 'true');
-                window.location.href = "inicio.html"; // Redirige a la página principal
+                window.location.href = "inicio.html";
             } else {
                 document.getElementById('error-msg').style.display = 'block';
             }
