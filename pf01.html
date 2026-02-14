@@ -18,7 +18,6 @@
         
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
         
-        /* Navegación */
         nav { 
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
@@ -28,7 +27,6 @@
         .nav-links a { text-decoration: none; color: #555; margin-left: 1.5rem; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        /* Hero Parcial 01 */
         .hero-parcial { 
             padding: 4rem 10%; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white; text-align: center;
@@ -36,7 +34,6 @@
         .hero-parcial h1 { margin: 0; font-size: 2.5rem; }
         .hero-parcial p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
 
-        /* Contenedor de Actividades */
         .section-container { padding: 4rem 10%; max-width: 1100px; margin: auto; }
         
         .activity-card { 
@@ -53,7 +50,6 @@
         .info-block h3 { font-size: 1rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
         .info-block p { margin: 0; line-height: 1.6; text-align: justify; }
 
-        /* Botonera de Evidencias */
         .evidence-actions { display: flex; gap: 10px; margin-top: 2rem; }
         .btn-action { 
             padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; 
@@ -63,17 +59,14 @@
         .btn-download { background: var(--accent); color: var(--primary); }
         .btn-action:hover { opacity: 0.8; transform: translateY(-2px); }
 
-        /* Visor de PDF (JS Controlado) */
         .pdf-viewer { display: none; margin-top: 20px; width: 100%; height: 500px; border: 2px solid var(--bg); border-radius: 10px; overflow: hidden; }
         .pdf-viewer iframe { width: 100%; height: 100%; border: none; }
 
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
     </style>
     <script>
-        /* Guardian de Sesión */
         if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
 
-        /* Función para alternar visor de PDF */
         function togglePDF(id) {
             const viewer = document.getElementById('viewer-' + id);
             if (viewer.style.display === "none" || viewer.style.display === "") {
@@ -109,32 +102,35 @@
         <article class="activity-card">
             <div class="activity-header">
                 <div class="activity-title">
-                    <h2>Actividad 01: Análisis en grupo de un ciberataque real y su impacto empresarial</h2>
+                    <h2>Actividad 01: Análisis de un ciberataque real y su impacto empresarial</h2>
                 </div>
                 <div class="activity-date">Realizada: 30/Ene/2026</div>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
-                <p>Investigar y documentar el fallo de seguridad ocurrido en [Caso], identificando el vector de ataque y la vulnerabilidad explotada según los criterios de la ITU-T X.800.</p>
+                <p>Realizar un análisis técnico, económico y estratégico del ciberataque NotPetya ocurrido en 2017. El estudio debe enfocarse en el impacto sufrido por la compañía A.P. Moller-Maersk y la relación entre ciberseguridad y continuidad operativa.</p>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
-                <p>Se realizó un mapeo de los servicios de seguridad comprometidos, enfocándose en la falta de mecanismos de autenticación robustos. Se utilizó el marco de referencia X.800 para clasificar el ataque como una amenaza activa de tipo intercepción de datos y suplantación de identidad.</p>
+                <p>Se documentó un "Supply Chain Attack" donde atacantes comprometieron las actualizaciones del software ucraniano M.E.Doc para distribuir un malware destructivo que sobrescribe el Master Boot Record (MBR). El ataque paralizó infraestructuras tecnológicas globales, generando pérdidas millonarias y demostrando la vulnerabilidad de las cadenas de suministro digitales.</p>
             </div>
 
             <div class="evidence-actions">
-                <a href="actividades/act01.html" class="btn-action btn-view">
+                <a href="actividades/act1_notpetya.html" class="btn-action btn-view">
                     <i class="fa-solid fa-file-lines"></i> Leer Actividad
                 </a>
                 <a href="evidencias/act01-Equipo01.pdf" download class="btn-action btn-download">
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(1)">
+                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                </button>
             </div>
 
             <div id="viewer-1" class="pdf-viewer">
-                <iframe src="evidencias/evidencia1.pdf"></iframe>
+                <iframe src="evidencias/act01-Equipo01.pdf"></iframe>
             </div>
         </article>
 
@@ -148,25 +144,29 @@
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
-                <p>Investigar y documentar el fallo de seguridad ocurrido en [Caso], identificando el vector de ataque y la vulnerabilidad explotada según los criterios de la ITU-T X.800.</p>
+                <p>Utilizar el marco de la arquitectura ITU-T X.800 y el glosario RFC 4949 para identificar y categorizar fallos de seguridad en diversos escenarios de estudio. Se requiere determinar cuál de los seis servicios esenciales falló en cada caso y describirlo con terminología estandarizada.</p>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
-                <p>Se realizó un mapeo de los servicios de seguridad comprometidos, enfocándose en la falta de mecanismos de autenticación robustos. Se utilizó el marco de referencia X.800 para clasificar el ataque como una amenaza activa de tipo intercepción de datos y suplantación de identidad.</p>
+                
+                <p>Se realizó una ficha de análisis para 10 incidentes, vinculándolos con servicios como Autenticación, Control de Acceso, Confidencialidad, Integridad, No Repudio y Disponibilidad. La aplicación del RFC 4949 permitió eliminar ambigüedades técnicas, permitiendo clasificar amenazas como "insider threats", "supply chain attacks" o "masquerades" de forma precisa.</p>
             </div>
 
             <div class="evidence-actions">
-                <a href="actividades/act02.html" class="btn-action btn-view">
+                <a href="actividades/act2_servicios_seguridad.html" class="btn-action btn-view">
                     <i class="fa-solid fa-file-lines"></i> Leer Actividad
                 </a>
                 <a href="evidencias/183636-act02.pdf" download class="btn-action btn-download">
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(2)">
+                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                </button>
             </div>
 
-            <div id="viewer-1" class="pdf-viewer">
-                <iframe src="evidencias/evidencia1.pdf"></iframe>
+            <div id="viewer-2" class="pdf-viewer">
+                <iframe src="evidencias/183636-act02.pdf"></iframe>
             </div>
         </article>
 
@@ -180,24 +180,28 @@
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
-                <p>Investigar y documentar el fallo de seguridad ocurrido en [Caso], identificando el vector de ataque y la vulnerabilidad explotada según los criterios de la ITU-T X.800.</p>
+                <p>Completar ejercicios sobre el flujo de paquetes en un sistema Linux, identificando la relación entre tablas, cadenas y reglas dentro de la herramienta iptables.</p>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
-                <p>Se realizó un mapeo de los servicios de seguridad comprometidos, enfocándose en la falta de mecanismos de autenticación robustos. Se utilizó el marco de referencia X.800 para clasificar el ataque como una amenaza activa de tipo intercepción de datos y suplantación de identidad.</p>
+                
+                <p>Se analizaron las tablas FILTER, NAT, MANGLE, RAW y SECURITY, comprendiendo su propósito principal en el filtrado y modificación de paquetes. Se desarrollaron habilidades para construir comandos que permiten filtrar puertos TCP específicos (SSH, HTTP, HTTPS) y gestionar estados de conexión como NEW y ESTABLISHED para asegurar el tráfico entrante por interfaces específicas.</p>
             </div>
 
             <div class="evidence-actions">
-                <a href="actividades/act03.html" class="btn-action btn-view">
+                <a href="actividades/act3_iptables.html" class="btn-action btn-view">
                     <i class="fa-solid fa-file-lines"></i> Leer Actividad
                 </a>
                 <a href="evidencias/183636-act03.pdf" download class="btn-action btn-download">
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(3)">
+                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                </button>
             </div>
 
-            <div id="viewer-1" class="pdf-viewer">
+            <div id="viewer-3" class="pdf-viewer">
                 <iframe src="evidencias/183636-act03.pdf"></iframe>
             </div>
         </article>
@@ -205,36 +209,39 @@
         <article class="activity-card">
             <div class="activity-header">
                 <div class="activity-title">
-                    <h2>Actividad 04: Mecanismos de defensa en red</h2>
+                    <h2>Actividad 04: Mecanismos de defensa en red (Configuración Avanzada)</h2>
                 </div>
                 <div class="activity-date">Realizada: 04/Feb/2026</div>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
-                <p>Investigar y documentar el fallo de seguridad ocurrido en [Caso], identificando el vector de ataque y la vulnerabilidad explotada según los criterios de la ITU-T X.800.</p>
+                <p>Implementar una configuración de cortafuegos avanzada que establezca políticas restrictivas por defecto y autorice servicios críticos de red.</p>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
-                <p>Se realizó un mapeo de los servicios de seguridad comprometidos, enfocándose en la falta de mecanismos de autenticación robustos. Se utilizó el marco de referencia X.800 para clasificar el ataque como una amenaza activa de tipo intercepción de datos y suplantación de identidad.</p>
+                <p>La práctica consistió en aplicar el principio de denegación por defecto (DROP) en todas las cadenas principales. A partir de esta base restrictiva, se crearon reglas para permitir conexiones establecidas, autorizar tráfico DNS saliente [cite: 260], gestionar la recepción/envío de correo electrónico (puerto 25)  y habilitar servidores web mediante el uso de módulos como conntrack para el control de estados.</p>
             </div>
 
             <div class="evidence-actions">
-                <a href="actividades/act04.html" class="btn-action btn-view">
+                <a href="actividades/act4_iptables_avanzado.html" class="btn-action btn-view">
                     <i class="fa-solid fa-file-lines"></i> Leer Actividad
                 </a>
                 <a href="evidencias/183636-act04.pdf" download class="btn-action btn-download">
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(4)">
+                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                </button>
             </div>
 
-            <div id="viewer-1" class="pdf-viewer">
+            <div id="viewer-4" class="pdf-viewer">
                 <iframe src="evidencias/183636-act04.pdf"></iframe>
             </div>
         </article>
 
-        </div>
+    </div>
 
     <footer>
         <p>© 2026. Todos los derechos reservados.</p>
