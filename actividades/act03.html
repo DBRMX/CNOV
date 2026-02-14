@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 03 | Políticas de Filtrado en iptables</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff; --code-bg: #1e1e1e;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Barra de navegación */
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 900px; margin: 3rem auto; padding: 0 2rem; }
+        
+        /* Encabezado */
+        .activity-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .activity-header h1 { color: var(--primary); font-size: 1.8rem; margin: 0; }
+        .activity-header h2 { color: var(--secondary); font-size: 1.1rem; margin-top: 0.5rem; text-transform: uppercase; }
+        
+        .meta-box { margin-top: 1rem; font-size: 0.9rem; color: #666; font-weight: 600; }
+
+        /* Estilo de Contenido */
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3rem; text-transform: uppercase; font-size: 1.2rem; }
+        p { text-align: justify; }
+
+        /* Flujo del paquete */
+        .flow-box { 
+            display: flex; justify-content: space-around; align-items: center; 
+            background: var(--bg); padding: 1.5rem; border-radius: 12px; margin: 2rem 0;
+            border: 1px solid var(--accent);
+        }
+        .flow-step { text-align: center; font-weight: bold; color: var(--primary); }
+        .flow-arrow { color: var(--secondary); font-size: 1.5rem; }
+
+        /* Tablas */
+        .table-wrapper { overflow-x: auto; margin: 2rem 0; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        table { width: 100%; border-collapse: collapse; background: white; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border: 1px solid #eee; vertical-align: top; font-size: 0.9rem; }
+        tr:nth-child(even) { background-color: #f9fdfd; }
+
+        /* Bloques de Código */
+        .code-block { 
+            background: var(--code-bg); color: #dcdcdc; padding: 1.5rem; 
+            border-radius: 8px; font-family: 'Courier New', Courier, monospace; 
+            margin: 1.5rem 0; position: relative; border-left: 5px solid var(--accent);
+            overflow-x: auto;
+        }
+        .code-label { position: absolute; top: 0; right: 20px; background: var(--accent); color: var(--primary); padding: 2px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 0 0 5px 5px; }
+
+        /* Descarga */
+        .download-footer { 
+            margin-top: 4rem; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; font-size: 0.8rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01.html">VOLVER A EVIDENCIAS PF01</a>
+    </div>
+
+    <div class="content-container">
+        <header class="activity-header">
+            <h1>Interpretación y Traducción de Políticas de Filtrado en iptables</h1>
+            <h2>Actividad 03 | CNO V. Seguridad Informática</h2>
+            <div class="meta-box">
+                David Beltrán Reyna (183636) | 3 de febrero de 2026
+            </div>
+        </header>
+
+        <section>
+            <h3>Flujo del Paquete en el Sistema</h3>
+            <p>
+                Para comprender el funcionamiento de <em>iptables</em>, es fundamental identificar el recorrido jerárquico que sigue un paquete de datos al llegar al sistema:
+            </p>
+            <div class="flow-box">
+                <div class="flow-step"><i class="fa-solid fa-table"></i><br>TABLA</div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step"><i class="fa-solid fa-link"></i><br>CADENA</div>
+                <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                <div class="flow-step"><i class="fa-solid fa-gavel"></i><br>ACCIÓN / REGLA</div>
+            </div>
+        </section>
+
+        <section>
+            <h3>Propósito de las Tablas Principales</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tabla</th>
+                            <th>Propósito Principal e Intervención </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FILTER</strong></td>
+                            <td>Es la tabla por defecto para filtrar paquetes (aceptar o bloquear conexiones peligrosas).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NAT</strong></td>
+                            <td>Se utiliza para la traducción de direcciones de red (NAT estático en servidores, redirección de puertos).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MANGLE</strong></td>
+                            <td>Permite la modificación de campos específicos del paquete (TTL, marcas de red para priorizar tráfico).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RAW</strong></td>
+                            <td>Maneja excepciones para el seguimiento de conexiones (notrack) para liberar recursos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SECURITY</strong></td>
+                            <td>Utilizada para el etiquetado de seguridad de red compatible con sistemas como SELinux.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h3>Anatomía de un Comando iptables</h3>
+            <p>Ejemplo de comando para permitir tráfico web (puertos 80 y 443):</p>
+            <div class="code-block">
+                <div class="code-label">COMMAND</div>
+                iptables -A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT
+            </div>
+            <p><strong>Acciones comunes (Targets):</strong></p>
+            <ul>
+                <li><strong>DROP:</strong> Descarta el paquete sin enviar respuesta al origen (el paquete "desaparece").</li>
+                <li><strong>REJECT:</strong> Bloquea el paquete pero envía un mensaje de error ICMP al remitente.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Análisis de Reglas Complejas</h3>
+            <p>Interpretación técnica de una regla con inspección de estado :</p>
+            <div class="code-block">
+                <div class="code-label">ANALYSIS</div>
+                iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j ACCEPT
+            </div>
+            <p><strong>Descripción:</strong> Esta regla afecta a la tabla <em>FILTER</em> y permite paquetes entrantes por la interfaz <code>eth0</code> bajo el protocolo TCP. Filtra los puertos 22 (SSH), 80 (HTTP) y 443 (HTTPS), permitiendo únicamente conexiones que sean nuevas o ya establecidas.</p>
+        </section>
+
+        <section>
+            <h3>Ejemplos de Aplicación Técnica</h3>
+            
+            <p><strong>1. Permitir tráfico HTTP entrante:</strong></p>
+            <div class="code-block">
+                iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+            </div>
+
+            <p><strong>2. Permitir todo el tráfico saliente:</strong></p>
+            <div class="code-block">
+                iptables -A OUTPUT -j ACCEPT
+            </div>
+
+            <p><strong>3. Restringir acceso SSH a una IP específica:</strong></p>
+            <div class="code-block">
+                iptables -A INPUT -p tcp -s 192.168.1.50 --dport 22 -j ACCEPT
+            </div>
+
+            <p><strong>4. Registro de intentos y filtrado avanzado (Log & Drop):</strong></p>
+            <div class="code-block">
+                iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 -m state --state NEW,ESTABLISHED -j LOG --log-prefix "AUDITORIA_RED: " -j ACCEPT
+            </div>
+        </section>
+
+        <div class="download-footer">
+            <p>Evidencia original:</p>
+            <a href="../evidencias/183636-act03.pdf" download class="btn-download">
+                <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 03
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Configuración de Seguridad en Redes: Netfilter/iptables - 2026</p>
+    </footer>
+
+</body>
+</html>

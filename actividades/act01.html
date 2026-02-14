@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 01 | NotPetya-Maersk (2017)</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --light: #9DECFA; --white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Barra de Navegación Retorno */
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: 0.3s; }
+        .back-nav a:hover { color: var(--accent); }
+
+        .content-container { max-width: 950px; margin: 3rem auto; padding: 0 2rem; }
+        
+        /* Encabezado Estilo Reporte */
+        .report-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .report-header img { width: 120px; margin-bottom: 1rem; }
+        .report-header h1 { color: var(--primary); font-size: 1.8rem; text-transform: uppercase; margin: 0.5rem 0; }
+        .report-header h2 { color: var(--secondary); font-size: 1.3rem; margin-bottom: 2rem; }
+        
+        .team-box { background: var(--bg); padding: 1.5rem; border-radius: 10px; display: inline-block; text-align: left; border: 1px solid var(--accent); }
+        .team-box ul { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; }
+        .team-box li strong { color: var(--primary); }
+
+        /* Cuerpo del Texto */
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3rem; text-transform: uppercase; }
+        p { text-align: justify; margin-bottom: 1.2rem; }
+
+        /* Tablas Exactas del PDF */
+        .table-wrapper { overflow-x: auto; margin: 2rem 0; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; }
+        th { background: var(--primary); color: white; padding: 12px; text-align: left; text-transform: uppercase; }
+        td { padding: 12px; border: 1px solid #ddd; vertical-align: top; }
+        tr:nth-child(even) { background-color: var(--bg); }
+
+        /* MITRE List */
+        .mitre-list { padding-left: 20px; }
+        .mitre-list li { margin-bottom: 10px; }
+        .mitre-list strong { color: var(--secondary); }
+
+        /* Botón de descarga al final */
+        .download-footer { 
+            margin-top: 4rem; padding: 2rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: scale(1.05); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 4rem; font-size: 0.8rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01.html">VOLVER A EVIDENCIAS PF01</a>
+    </div>
+
+    <div class="content-container">
+        <header class="report-header">
+            <h1>ACTIVIDAD 01</h1>
+            <h2>Análisis Grupal: De un Ciberataque Real y su Impacto Empresarial</h2>
+            <p><strong>Tema: NotPetya-Maersk (2017)</strong></p>
+            
+            <div class="team-box">
+                <ul>
+                    <li><strong>Integrantes:</strong></li>
+                    <li>• Beltrán Reyna David - 183636</li>
+                    <li>• Gómez Arreguín Donaldo Demián - 179822 </li>
+                    <li>• Aguilar Carrizales Miguel Ángel - 182318 </li>
+                    <li>• Rosales Ramírez Josué Emiliano - 181760 </li>
+                    <li>• Aznar Cuevas Luis Eduardo - 179880 </li>
+                    <li>• Morales Hernández Roberto Emiliano - 182377 </li>
+                    <li><strong>Asignatura:</strong> CNO V Seguridad Informática </li>
+                    <li><strong>Profesor:</strong> López Servando </li>
+                    <li><strong>Fecha:</strong> Febrero 2026 </li>
+                </ul>
+            </div>
+        </header>
+
+        <section>
+            <h3>Introducción</h3>
+            <p>En el contexto de la digitalización global, una de las principales amenazas a las que se enfrentan las empresas son los ciberataques, los cuales pueden afectar infraestructura crítica a escala internacional. Uno de los casos que evidenció de forma contundente este peligro fue el ataque <strong>NotPetya</strong> en junio de 2017.</p>
+            <p>Aunque inicialmente se presentó como un ransomware, investigaciones demostraron que su objetivo era la <strong>destrucción de sistemas</strong> y el daño operativo. A.P. Moller-Maersk, gigante de la logística, sufrió pérdidas estimadas entre 200 y 300 millones de dólares debido a la paralización de su infraestructura global.</p>
+        </section>
+
+        <section>
+            <h3>Cronología del Incidente</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Fecha / Etapa</th>
+                            <th>Acontecimientos Clave</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Antecedentes (Antes 27 junio)</strong></td>
+                            <td>El grupo APT <em>Sandworm</em> (asociado a GRU ruso) comprometió el servidor de actualizaciones del software contable ucraniano M.E.Doc para distribuir código malicioso.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mañana del 27 de junio</strong></td>
+                            <td>NotPetya se activa al instalarse la actualización. El malware comienza a sobrescribir el Master Boot Record (MBR) y destruye archivos críticos de forma irreversible.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tarde del 27 de junio</strong></td>
+                            <td>Los sistemas de TI de Maersk fallan simultáneamente. El personal tarda dos horas en desconectar la red global. SAP ERP, correo y servicios logísticos quedan inutilizados.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>28 y 29 de junio</strong></td>
+                            <td>Maersk emite comunicado oficial. Se restauran parcialmente sistemas para aceptar reservas existentes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>03 al 09 de julio</strong></td>
+                            <td>Normalización progresiva conforme se reconstruyen los sistemas afectados.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h3>Análisis Técnico y Tácticas (MITRE ATT&CK)</h3>
+            <p>El ataque NotPetya contra Maersk puede desglosarse mediante el marco <strong>MITRE ATT&CK</strong>:</p>
+            <ul class="mitre-list">
+                <li><strong>Acceso Inicial:</strong> Compromiso de la cadena de suministro (Supply Chain Attack) vía M.E.Doc.</li>
+                <li><strong>Ejecución:</strong> Ejecución automática al instalar la actualización comprometida.</li>
+                <li><strong>Escalada de Privilegios:</strong> Uso de credenciales robadas y explotación de vulnerabilidades para obtener permisos de administrador.</li>
+                <li><strong>Movimiento Lateral:</strong> Propagación rápida usando <em>EternalBlue</em> y <em>EternalRomance</em>.</li>
+                <li><strong>Impacto:</strong> Sobrescritura del MBR y cifrado destructivo de archivos críticos.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Evaluación de Impacto en la Tríada de Seguridad</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Principio</th>
+                            <th>Descripción del Impacto</th>
+                            <th>Evidencia en el Caso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Confidencialidad</strong></td>
+                            <td>Riesgo de exposición de datos sensibles por el control total administrativo de la red por parte de los atacantes.</td>
+                            <td>Acceso completo a Active Directory y servidores corporativos.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Integridad</strong></td>
+                            <td>Compromiso severo; archivos y configuraciones críticas destruidas de manera irreversible.</td>
+                            <td>Sobrescritura del MBR y corrupción de sistemas SAP.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disponibilidad</strong></td>
+                            <td>Principio más afectado; operaciones globales paralizadas por completo durante días.</td>
+                            <td>Interrupción de puertos y logística a nivel mundial.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h3>Impacto Económico (Modelo de Adrian Mizzi)</h3>
+            <p>Utilizando el modelo de Mizzi para evaluar el SGSI, se evidencia que Maersk se encontraba en un punto de inversión subóptimo. Los costos de ruptura superaron significativamente lo que habría costado implementar una segmentación de red adecuada.</p>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo de Costo</th>
+                            <th>Descripción</th>
+                            <th>Estimación (MXN - 2017)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Pérdidas Operativas</strong></td>
+                            <td>Inactividad global de operaciones logísticas por 2 semanas.</td>
+                            <td>$3,500,000,000 </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Costos Técnicos</strong></td>
+                            <td>Reinstalación de 4,000 servidores, 45,000 PCs y 2,500 apps.</td>
+                            <td>$1,100,000,000 </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Daños Reputacionales</strong></td>
+                            <td>Deterioro de la confianza de clientes y valor de marca.</td>
+                            <td>$800,000,000 </td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOTAL ESTIMADO</strong></td>
+                            <td><strong>~300 Millones de USD</strong></td>
+                            <td><strong>$5,400,000,000</strong> </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <h3>Lecciones Aprendidas</h3>
+            <ul>
+                <li>La seguridad depende de la evaluación continua de <strong>proveedores y terceros</strong> (Supply Chain).</li>
+                <li>Las redes sin <strong>segmentación</strong> convierten incidentes locales en fallas globales.</li>
+                <li>Los <strong>respaldos (backups)</strong> deben estar aislados y protegidos contra ataques destructivos.</li>
+                <li>La gestión oportuna de <strong>parches</strong> reduce el riesgo de explotación de vulnerabilidades conocidas.</li>
+            </ul>
+        </section>
+
+        <div class="download-footer">
+            <p>Evidencia original:</p>
+            <a href="../evidencias/act01-Equipo01.pdf" download class="btn-download">
+                <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 01
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>CNO V: Seguridad Informática - Portafolio de Evidencias 2026</p>
+    </footer>
+
+</body>
+</html>

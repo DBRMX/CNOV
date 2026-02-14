@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 04 | Configuración Avanzada de iptables</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff; --code-bg: #1e1e1e;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Navegación de retorno */
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 900px; margin: 3rem auto; padding: 0 2rem; }
+        
+        /* Encabezado */
+        .activity-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .activity-header h1 { color: var(--primary); font-size: 1.8rem; margin: 0; }
+        .activity-header h2 { color: var(--secondary); font-size: 1.1rem; margin-top: 0.5rem; text-transform: uppercase; }
+        
+        .meta-box { margin-top: 1rem; font-size: 0.9rem; color: #666; font-weight: 600; }
+
+        /* Estilo de Contenido */
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3rem; text-transform: uppercase; font-size: 1.2rem; }
+        p { text-align: justify; margin-bottom: 1rem; }
+
+        /* Bloques de Código Estilo Terminal */
+        .code-block { 
+            background: var(--code-bg); color: #dcdcdc; padding: 1.5rem; 
+            border-radius: 8px; font-family: 'Courier New', Courier, monospace; 
+            margin: 1rem 0 2rem 0; position: relative; border-left: 5px solid var(--accent);
+            overflow-x: auto; font-size: 0.9rem;
+        }
+        .code-label { position: absolute; top: 0; right: 20px; background: var(--accent); color: var(--primary); padding: 2px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 0 0 5px 5px; }
+
+        /* Notas técnicas */
+        .tech-note { 
+            background: var(--bg); padding: 1.2rem; border-radius: 10px; 
+            border: 1px solid var(--accent); margin: 1.5rem 0; font-size: 0.95rem;
+        }
+
+        /* Descarga */
+        .download-footer { 
+            margin-top: 4rem; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; font-size: 0.8rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01.html">VOLVER A EVIDENCIAS PF01</a>
+    </div>
+
+    <div class="content-container">
+        <header class="activity-header">
+            <h1>Configuración Avanzada de iptables</h1>
+            <h2>Actividad 04 | CNO V. Seguridad Informática</h2>
+            <div class="meta-box">
+                David Beltrán Reyna (183636) | 4 de febrero de 2026
+            </div>
+        </header>
+
+        <section>
+            <h3>1. Establecimiento de Política Restrictiva</h3>
+            <p>
+                Como medida de endurecimiento (hardening) inicial, se definen políticas por defecto que descartan todo el tráfico entrante, saliente y de reenvío que no haya sido explícitamente autorizado.
+            </p>
+            <div class="code-block">
+                <div class="code-label">BASH</div>
+                iptables -P INPUT DROP<br>
+                iptables -P OUTPUT DROP<br>
+                iptables -P FORWARD DROP
+            </div>
+        </section>
+
+        <section>
+            <h3>2. Gestión de Estados: Conexiones Establecidas</h3>
+            <p>
+                Para permitir la fluidez de las comunicaciones ya iniciadas y autorizadas, se habilita el tráfico que posea un estado <code>ESTABLISHED</code> o <code>RELATED</code>.
+            </p>
+            <div class="code-block">
+                <div class="code-label">BASH</div>
+                iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT<br>
+                iptables -A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT<br>
+                iptables -A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+            </div>
+        </section>
+
+        <section>
+            <h3>3. Tráfico DNS de Red Local a Internet</h3>
+            <p>
+                Se autoriza el tráfico DNS (puerto 53 TCP) originado en la red local (192.1.2.0/24) hacia cualquier destino externo.
+            </p>
+            <div class="code-block">
+                <div class="code-label">BASH</div>
+                iptables -A FORWARD -p tcp -s 192.1.2.0/24 -d 0.0.0.0/0 --sport 1024:65535 --dport 53 -m conntrack --ctstate NEW -j ACCEPT
+            </div>
+        </section>
+
+        <section>
+            <h3>4. Servidor de Correo: Tráfico Entrante y Saliente</h3>
+            <p>
+                Configuración para permitir la recepción y envío de correos electrónicos (puerto 25 SMTP) para el servidor ubicado en la IP 192.1.2.10.
+            </p>
+            <div class="tech-note">
+                <strong>Nota Técnica:</strong> Se utiliza el reenvío (FORWARD) asumiendo que el cortafuegos actúa como puerta de enlace perimetral.
+            </div>
+            <div class="code-block">
+                <div class="code-label">ENTRANTE</div>
+                iptables -A FORWARD -p tcp -s 0.0.0.0/0 -d 192.1.2.10 --sport 1024:65535 --dport 25 -m conntrack --ctstate NEW -j ACCEPT
+            </div>
+            <div class="code-block">
+                <div class="code-label">SALIENTE</div>
+                iptables -A FORWARD -p tcp -s 192.1.2.10 -d 0.0.0.0/0 --sport 1024:65535 --dport 25 -m conntrack --ctstate NEW -j ACCEPT
+            </div>
+        </section>
+
+        <section>
+            <h3>5. Servidores Web: Gestión de Tráfico HTTP</h3>
+            <p>
+                Habilitación de acceso público al servidor web interno (192.1.2.11) y autorización para que los clientes de la red local naveguen por Internet.
+            </p>
+            <div class="code-block">
+                <div class="code-label">INTERNET -> WEB SERVER</div>
+                iptables -A FORWARD -p tcp -s 0.0.0.0/0 -d 192.1.2.11 --sport 1024:65535 --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+            </div>
+            <div class="code-block">
+                <div class="code-label">RED LOCAL -> INTERNET</div>
+                iptables -A FORWARD -p tcp -s 192.1.2.0/24 -d 0.0.0.0/0 --sport 1024:65535 --dport 80 -m conntrack --ctstate NEW -j ACCEPT
+            </div>
+        </section>
+
+        <div class="download-footer">
+            <p>Evidencia original:</p>
+            <a href="../evidencias/183636-act04.pdf" download class="btn-download">
+                <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 04
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Administración de Seguridad Perimetral con iptables - Parcial 1</p>
+    </footer>
+
+</body>
+</html>
