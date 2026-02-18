@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 06 | Implementación de IPSec VPN</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff; --code-bg: #1e1e1e;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+        
+        .activity-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .activity-header h1 { color: var(--primary); font-size: 1.8rem; margin: 0; }
+        .activity-header h2 { color: var(--secondary); font-size: 1.1rem; margin-top: 0.5rem; text-transform: uppercase; }
+        
+        .meta-box { margin-top: 1.5rem; font-size: 0.9rem; color: #666; font-weight: 600; }
+
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3rem; text-transform: uppercase; font-size: 1.2rem; }
+        p { text-align: justify; }
+
+        /* Estilo de Terminal Cisco */
+        .code-block { 
+            background: var(--code-bg); color: #dcdcdc; padding: 1.5rem; 
+            border-radius: 8px; font-family: 'Courier New', Courier, monospace; 
+            margin: 1.5rem 0; position: relative; border-left: 5px solid var(--accent);
+            overflow-x: auto; font-size: 0.85rem;
+        }
+        .code-label { position: absolute; top: 0; right: 20px; background: var(--accent); color: var(--primary); padding: 2px 10px; font-size: 0.7rem; font-weight: bold; border-radius: 0 0 5px 5px; }
+
+        /* Contenedor de Topología */
+        .topology-box { background: #f9f9f9; padding: 2rem; border-radius: 12px; text-align: center; border: 1px solid #ddd; margin: 2rem 0; }
+        .topology-box img { max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        .note { background: var(--bg); padding: 1.2rem; border-radius: 10px; border: 1px solid var(--accent); margin: 1.5rem 0; }
+
+        .download-footer { 
+            margin-top: 4rem; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
+
+        /* Contenedor para Imágenes */
+        .media-container {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .media-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(3,83,97,0.15);
+            border: 1px solid var(--accent);
+        }
+
+        /* Contenedor para Videos de YouTube (Relación 16:9) */
+        .video-responsive {
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            position: relative;
+            height: 0;
+            margin: 2.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .video-responsive iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            border: none;
+        }
+
+        .media-caption {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01.html">VOLVER A EVIDENCIAS PF01</a>
+    </div>
+
+    <div class="content-container">
+        <header class="activity-header">
+            <h1>Implementación del protocolo IPSec VPN</h1>
+            <h2>Actividad 06 | CNO V: Seguridad Informática</h2>
+            <div class="meta-box">
+                David Beltrán Reyna (183636) | 15 de febrero de 2026<br>
+                Mtro. Servando López Contreras | Grupo: T46A
+            </div>
+        </header>
+
+        <section>
+            <h3>Introducción</h3>
+            <p>
+                Esta actividad documenta la creación de una VPN IPSec <strong>Site-to-Site</strong> en Packet Tracer utilizando routers Cisco 1941 con licencias <em>Security K9</em>. El objetivo principal es establecer un túnel cifrado que garantice la <strong>confidencialidad e integridad</strong> de los datos entre dos sedes remotas conectadas a través de un ISP. Para ello, se configuran políticas ISAKMP de Fase 1 y conjuntos de transformación de Fase 2 para proteger el tráfico "interesante" de la red.
+            </p>
+        </section>
+
+        <section>
+            <h3>Diseño y Topología de Red</h3>
+            <p>La infraestructura consta de tres routers (R1, R3 e ISP), dos switches 2960 y terminales finales en dos subredes distintas.</p>
+            <div class="topology-box">
+                                <p><small>Topología: R1 (192.168.1.1) ↔ ISP ↔ R3 (192.168.3.1) </small></p>
+            </div>
+        </section>
+
+        <section>
+            <h3>1. Activación de Licencias de Seguridad</h3>
+            <p>Es obligatorio habilitar el paquete de seguridad en los routers Cisco 1900 para disponer de los comandos de criptografía.</p>
+            <div class="code-block">
+                <div class="code-label">CISCO IOS</div>
+                Router# configure terminal<br>
+                Router(config)# license boot module c1900 technology-package securityk9<br>
+                Router(config)# exit<br>
+                Router# reload 
+            </div>
+        </section>
+
+        <section>
+            <h3>2. Configuración de VPN Fase 1 (ISAKMP)</h3>
+            <p>Se define la política de gestión de claves con cifrado AES de 256 bits y autenticación por clave compartida.</p>
+            <div class="code-block">
+                <div class="code-label">R1 CONFIG</div>
+                R1(config)# crypto isakmp policy 10<br>
+                R1(config-isakmp)# encryption aes 256<br>
+                R1(config-isakmp)# authentication pre-share<br>
+                R1(config-isakmp)# group 5<br>
+                R1(config-isakmp)# exit<br>
+                R1(config)# crypto isakmp key secretkey address 209.165.200.1 
+            </div>
+        </section>
+
+        <section>
+            <h3>3. Configuración de VPN Fase 2 (IPSec)</h3>
+            <p>Se establece el <em>Transform Set</em> y el <em>Crypto Map</em> para definir cómo se cifrarán los paquetes de datos.</p>
+            <div class="code-block">
+                <div class="code-label">R1 CONFIG</div>
+                R1(config)# crypto ipsec transform-set R1-R3 esp-aes 256 esp-sha-hmac<br>
+                R1(config)# crypto map IPSEC-MAP 10 ipsec-isakmp<br>
+                R1(config-crypto-map)# set peer 209.165.200.1<br>
+                R1(config-crypto-map)# set transform-set R1-R3<br>
+                R1(config-crypto-map)# match address 100<br>
+                R1(config-crypto-map)# exit<br>
+                R1(config)# interface gigabitEthernet 0/0<br>
+                R1(config-if)# crypto map IPSEC-MAP 
+            </div>
+            <div class="note">
+                <strong>Tráfico Interesante:</strong> Se configura la lista de acceso (ACL 100) para permitir el tráfico entre las subredes 192.168.1.0/24 y 192.168.3.0/24.
+            </div>
+        </section>
+
+        <section>
+            <h3>4. Pruebas de Conectividad y Verificación</h3>
+            <p>Tras realizar el <em>ping</em> inicial, se verifica que el túnel esté activo y cifrando paquetes.</p>
+            <div class="code-block">
+                <div class="code-label">VERIFICACIÓN</div>
+                R1# show crypto isakmp sa<br>
+                R1# show crypto ipsec sa<br>
+                </div>
+        </section>
+
+        <section>
+            <h3>Conclusiones</h3>
+            <p>
+                La implementación fue exitosa, validada por el estado <strong>QM_IDLE</strong> en la fase de gestión de claves y el cifrado activo de paquetes confirmado mediante el comando <code>show crypto ipsec sa</code>. Este ejercicio refuerza la importancia de los protocolos de seguridad para mitigar riesgos de interceptación en infraestructuras de red corporativas.
+            </p>
+        </section>
+
+        <div class="media-container">
+            <img src="img/topologia_vpn.png" alt="Topología VPN IPSec">
+            <p class="media-caption">Topología: Red Site-to-Site configurada con Routers Cisco 1941 y túnel IPSec activo.</p>
+        </div>
+
+        <div class="download-footer">
+            <p>Evidencia original:</p>
+            <a href="../evidencias/183636-act06.pdf" download class="btn-download">
+                <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 06
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Implementación de VPN Site-to-Site - Parcial 1</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 05 | Cartografiando el Pentesting</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 1200px; margin: 3rem auto; padding: 0 2rem; }
+        
+        .activity-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .activity-header h1 { color: var(--primary); font-size: 2rem; margin: 0; }
+        .activity-header h2 { color: var(--secondary); font-size: 1.2rem; margin-top: 0.5rem; text-transform: uppercase; }
+        
+        .meta-box { margin-top: 1.5rem; font-size: 0.9rem; color: #666; font-weight: 600; }
+
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3rem; text-transform: uppercase; font-size: 1.3rem; }
+        p { text-align: justify; }
+
+        /* Estilo de la Tabla Comparativa */
+        .table-wrapper { overflow-x: auto; margin: 2rem 0; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 1000px; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 15px; text-align: left; border: 1px solid #02434e; }
+        td { padding: 12px; border: 1px solid #eee; vertical-align: top; }
+        tr:nth-child(even) { background-color: #f8fdfd; }
+        
+        .method-name { font-weight: 800; color: var(--primary); background: var(--bg) !important; text-align: center; vertical-align: middle; }
+
+        .conclusion-box { background: var(--bg); padding: 2rem; border-radius: 15px; border-left: 8px solid var(--primary); margin: 3rem 0; }
+
+        .download-footer { 
+            margin-top: 4rem; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
+
+        /* Contenedor para Imágenes */
+        .media-container {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .media-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(3,83,97,0.15);
+            border: 1px solid var(--accent);
+        }
+
+        /* Contenedor para Videos de YouTube (Relación 16:9) */
+        .video-responsive {
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            position: relative;
+            height: 0;
+            margin: 2.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .video-responsive iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            border: none;
+        }
+
+        .media-caption {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01.html">VOLVER A EVIDENCIAS PF01</a>
+    </div>
+
+    <div class="content-container">
+        <header class="activity-header">
+            <h1>Cartografiando el Pentesting</h1>
+            <h2>Actividad 05 | CNO V: Seguridad Informática</h2>
+            <div class="meta-box">
+                David Beltrán Reyna (183636) | 15 de febrero de 2026<br>
+                Mtro. Servando López Contreras | Grupo: T46A
+            </div>
+        </header>
+
+        <section>
+            <h3>Introducción</h3>
+            <p>
+                En la ciberseguridad profesional, la efectividad del pentesting reside en el rigor metodológico y no solo en la habilidad técnica aislada. Ante infraestructuras cada vez más complejas, es fundamental seleccionar el marco de trabajo adecuado para garantizar resultados precisos y útiles para el negocio. Este análisis evalúa los enfoques y alcances de MITRE ATT&CK, OWASP, NIST, OSSTMM, PTES e ISSAF, proporcionando el criterio necesario para optimizar la planificación de auditorías de seguridad en contextos reales.
+            </p>
+                    </section>
+
+        <section>
+            <h3>Tabla Comparativa de Metodologías</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metodología</th>
+                            <th>Descripción / Fases</th>
+                            <th>Objetivo Principal</th>
+                            <th>Escenarios de Uso</th>
+                            <th>Orientación</th>
+                            <th>Organización / URL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="method-name">MITRE ATT&CK</td>
+                            <td>Base de conocimientos global de tácticas y técnicas de adversarios basada en observaciones reales. 14 Tácticas (Reconocimiento, Acceso Inicial, Ejecución, etc.).</td>
+                            <td>Identificar brechas defensivas y emular comportamientos de atacantes.</td>
+                            <td>Red Corporativa, Nube, Móvil, ICS.</td>
+                            <td>Ataque y Defensa: Emulación de adversarios y Threat Hunting.</td>
+                            <td>MITRE Corp. attack.mitre.org.</td>
+                        </tr>
+                        <tr>
+                            <td class="method-name">OWASP WSTG</td>
+                            <td>Guía exhaustiva para probar la seguridad de aplicaciones y servicios web durante todo el ciclo de vida (v4.2/v5.0).</td>
+                            <td>Evaluación sistemática de vulnerabilidades en aplicaciones web y APIs.</td>
+                            <td>Auditoría de apps web, servicios cloud y aplicaciones móviles.</td>
+                            <td>Evaluación: Pruebas técnicas enfocadas en el software.</td>
+                            <td>OWASP Foundation. owasp.org.</td>
+                        </tr>
+                        <tr>
+                            <td class="method-name">NIST SP 800-115</td>
+                            <td>Guía técnica que establece las bases para realizar pruebas y evaluaciones de seguridad informática (Planeación, Ejecución, Post-ejecución).</td>
+                            <td>Asistir en la planificación y ejecución de pruebas técnicas de seguridad y mitigación de riesgos.</td>
+                            <td>Organizaciones gubernamentales y grandes empresas que requieren cumplimiento.</td>
+                            <td>Evaluación: Enfoque metodológico en el control de riesgos.</td>
+                            <td>NIST (EE. UU.). csrc.nist.gov.</td>
+                        </tr>
+                        <tr>
+                            <td class="method-name">OSSTMM</td>
+                            <td>Manual científico para auditorías técnicas que mide la seguridad operativa real mediante métricas (v3.0/v4.0).</td>
+                            <td>Medir la seguridad operativa a través de la visibilidad, acceso y confianza.</td>
+                            <td>Redes corporativas, seguridad física, inalámbrica y telecomunicaciones.</td>
+                            <td>Evaluación: Cuantificación de la superficie de ataque.</td>
+                            <td>ISECOM. isecom.org.</td>
+                        </tr>
+                        <tr>
+                            <td class="method-name">PTES</td>
+                            <td>Estándar diseñado para definir una base común de calidad en la ejecución de pruebas de penetración (Pre-acuerdo hasta Reporte).</td>
+                            <td>Proporcionar una estructura de alta calidad y lenguaje común para el Pentest profesional.</td>
+                            <td>Infraestructuras críticas y pruebas de penetración de caja negra/blanca.</td>
+                            <td>Ataque: Ejecución de pruebas ofensivas de extremo a extremo.</td>
+                            <td>Comunidad de expertos. pentest-standard.org.</td>
+                        </tr>
+                        <tr>
+                            <td class="method-name">ISSAF</td>
+                            <td>Marco de trabajo que vincula la evaluación técnica con los objetivos de negocio de la empresa (Host, Aplicación, Red).</td>
+                            <td>Evaluar controles de seguridad en múltiples capas (Host, Aplicación, Red).</td>
+                            <td>Evaluaciones profundas de sistemas operativos, bases de datos y aplicaciones empresariales.</td>
+                            <td>Evaluación y Auditoría: Enfoque en controles técnicos y gobernanza.</td>
+                            <td>OISSG. Archivado en Scribd.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="conclusion-box">
+            <h3>Conclusiones</h3>
+            <p>
+                La comparativa revela que la resiliencia organizacional depende de la integración táctica de estándares: mientras PTES y OWASP estructuran la ejecución ofensiva, MITRE ATT&CK permite emular comportamientos reales y OSSTMM aporta métricas científicas para medir la seguridad operativa. En conclusión, transitar de un enfoque empírico a uno metodológico es vital para profesionalizar la práctica del pentesting. La correcta selección de estos marcos transforma la evaluación técnica en una capacidad estratégica que protege los activos críticos con rigor, ética y precisión.
+            </p>
+        </section>
+
+        <div class="media-container">
+            <img src="https://www.metasploit.com/images/penetration-testing-lifecycle.png" alt="Pentesting Lifecycle">
+            <p class="media-caption">Esquema: Ciclo de vida profesional del Penetration Testing basado en el estándar PTES.</p>
+        </div>
+
+        <div class="download-footer">
+            <p>Evidencia original:</p>
+            <a href="../evidencias/183636-act05.pdf" download class="btn-download">
+                <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 05
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Metodologías de Pentesting - Parcial 1</p>
+    </footer>
+
+</body>
+</html>
