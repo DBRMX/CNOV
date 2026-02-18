@@ -125,7 +125,7 @@
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
                 <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(1)">
-                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                    <i class="fa-solid fa-eye"></i> Vista Previa
                 </button>
             </div>
 
@@ -161,7 +161,7 @@
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
                 <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(2)">
-                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                    <i class="fa-solid fa-eye"></i> Vista Previa
                 </button>
             </div>
 
@@ -197,7 +197,7 @@
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
                 <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(3)">
-                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                    <i class="fa-solid fa-eye"></i> Vista Previa
                 </button>
             </div>
 
@@ -221,7 +221,7 @@
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
-                <p>La práctica consistió en aplicar el principio de denegación por defecto (DROP) en todas las cadenas principales. A partir de esta base restrictiva, se crearon reglas para permitir conexiones establecidas, autorizar tráfico DNS saliente, gestionar la recepción/envío de correo electrónico (puerto 25)  y habilitar servidores web mediante el uso de módulos como conntrack para el control de estados.</p>
+                <p>La práctica consistió en aplicar el principio de denegación por defecto (DROP) en todas las cadenas principales. A partir de esta base restrictiva, se crearon reglas para permitir conexiones establecidas, autorizar tráfico DNS saliente , gestionar la recepción/envío de correo electrónico (puerto 25)  y habilitar servidores web mediante el uso de módulos como conntrack para el control de estados.</p>
             </div>
 
             <div class="evidence-actions">
@@ -232,13 +232,59 @@
                     <i class="fa-solid fa-download"></i> Descargar Original
                 </a>
                 <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(4)">
-                    <i class="fa-solid fa-file-pdf"></i> Vista Previa
+                    <i class="fa-solid fa-eye"></i> Vista Previa
                 </button>
             </div>
 
             <div id="viewer-4" class="pdf-viewer">
                 <iframe src="evidencias/183636-act04.pdf"></iframe>
             </div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>Actividad 05: Cartografiando el pentesting</h2>
+                </div>
+                <div class="activity-date">15/Feb/2026</div>
+            </div>
+            <div class="info-block">
+                <h3>Indicaciones</h3>
+                <p>Analizar y comparar los principales marcos de trabajo (marcos metodológicos) para la ejecución de pruebas de penetración profesionales.</p>
+            </div>
+            <div class="info-block">
+                <h3>Explicación Técnica</h3>
+                <p>Estudio comparativo entre MITRE ATT&CK, OWASP, NIST y PTES, evaluando sus fases de implementación y escenarios de uso para fortalecer la resiliencia organizacional.</p>
+            </div>
+            <div class="evidence-actions">
+                <a href="actividades/act05.html" class="btn-action btn-view"><i class="fa-solid fa-file-lines"></i> Leer Actividad</a>
+                <a href="evidencias/183636-act05.pdf" download class="btn-action btn-download"><i class="fa-solid fa-download"></i> Descargar Original</a>
+                <button class="btn-action btn-preview" onclick="togglePDF(5)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+            </div>
+            <div id="viewer-5" class="pdf-viewer"><iframe src="evidencias/183636-act05.pdf"></iframe></div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>Actividad 06: Implementación del protocolo IPSec VPN</h2>
+                </div>
+                <div class="activity-date">15/Feb/2026</div>
+            </div>
+            <div class="info-block">
+                <h3>Indicaciones</h3>
+                <p>Configurar una conexión VPN segura de tipo Site-to-Site utilizando el protocolo IPSec en routers Cisco.</p>
+            </div>
+            <div class="info-block">
+                <h3>Explicación Técnica</h3>
+                <p>Implementación de túneles cifrados con fases ISAKMP e IPSec (AES-256) para garantizar la confidencialidad de los datos en tránsito entre sucursales remotas.</p>
+            </div>
+            <div class="evidence-actions">
+                <a href="actividades/act06.html" class="btn-action btn-view"><i class="fa-solid fa-file-lines"></i> Leer Actividad</a>
+                <a href="evidencias/183636-act06.pdf" download class="btn-action btn-download"><i class="fa-solid fa-download"></i> Descargar Original</a>
+                <button class="btn-action btn-preview" onclick="togglePDF(6)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+            </div>
+            <div id="viewer-6" class="pdf-viewer"><iframe src="evidencias/183636-act06.pdf"></iframe></div>
         </article>
 
     </div>
@@ -250,5 +296,3 @@
 
 </body>
 </html>
-
-
