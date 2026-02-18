@@ -60,6 +60,48 @@
         }
         .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
 
+        /* Contenedor para Imágenes */
+        .media-container {
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .media-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(3,83,97,0.15);
+            border: 1px solid var(--accent);
+        }
+
+        /* Contenedor para Videos de YouTube (Relación 16:9) */
+        .video-responsive {
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            position: relative;
+            height: 0;
+            margin: 2.5rem 0;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .video-responsive iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            border: none;
+        }
+
+        .media-caption {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--secondary);
+            font-style: italic;
+            font-weight: 600;
+        }
+
         footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; font-size: 0.8rem; }
     </style>
     <script>
@@ -151,6 +193,11 @@
                 iptables -A FORWARD -p tcp -s 192.1.2.0/24 -d 0.0.0.0/0 --sport 1024:65535 --dport 80 -m conntrack --ctstate NEW -j ACCEPT
             </div>
         </section>
+
+        <div class="media-container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Netfilter-packet-flow.svg" alt="iptables Flow" style="background: white; padding: 10px;">
+            <p class="media-caption">Diagrama: Recorrido de un paquete a través de las tablas (Filter, NAT, Mangle) y cadenas en Linux.</p>
+        </div>
 
         <div class="download-footer">
             <p>Evidencia original:</p>
