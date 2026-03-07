@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 01 | Detalle Técnico</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #035361; --secondary: #228394; --accent: #56B6C7; --bg: #D4F8FF; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--white); color: #333; line-height: 1.6; }
+        
+        .back-nav { padding: 1rem 8%; background: var(--primary); color: white; display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .lab-detail-container { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .header-box { border-bottom: 3px solid var(--primary); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header-box h1 { color: var(--primary); margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+        
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; margin-top: 10px; text-transform: uppercase; }
+        .apprentice { background: #e6f7ff; color: #0070a3; border: 1px solid #91d5ff; }
+
+        h3 { color: var(--secondary); border-left: 5px solid var(--accent); padding-left: 10px; margin-top: 2.5rem; }
+        .code-block { background: #1e1e1e; color: #dcdcdc; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; margin: 1rem 0; overflow-x: auto; font-size: 0.9rem; position: relative;}
+        .code-block::after { content: "PAYLOAD"; position: absolute; top: 0; right: 10px; font-size: 0.7rem; color: var(--accent); font-weight: bold;}
+        
+        .step-list { padding-left: 20px; }
+        .step-list li { margin-bottom: 15px; }
+
+        /* Molde para captura de pantalla */
+        .solved-capture {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border: 2px dashed var(--accent);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .solved-capture h4 { color: var(--primary); margin-bottom: 1rem; }
+        .solved-capture img { 
+            max-width: 100%; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            display: block;
+            margin: auto;
+        }
+
+        .placeholder-text { color: #999; font-style: italic; }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../act08.html">VOLVER A HALL OF FAME</a>
+    </div>
+
+    <div class="lab-detail-container">
+        <div class="header-box">
+            <h1>Lab 01: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data</h1>
+            <span class="tag apprentice">Apprentice</span>
+        </div>
+
+        <section>
+            <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+            <p>Esta aplicación tiene una vulnerabilidad de inyección SQL en el filtro de categorías de productos. Cuando el usuario selecciona una categoría, la aplicación realiza una consulta SQL para recuperar detalles de los productos publicados de dicha categoría. El objetivo es inyectar un ataque que haga que la aplicación muestre todos los productos de todas las categorías, tanto publicados como no publicados.</p>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-gears"></i> Procedimiento Técnico</h3>
+            
+            <ul class="step-list">
+                <li>Utilizar Burp Suite para interceptar la petición cuando se selecciona un filtro de categoría (por ejemplo, 'Gifts').</li>
+                <li>Localizar el parámetro <code>category</code> en la petición GET.</li>
+                <li>Modificar el valor del parámetro agregando la carga maliciosa para romper la lógica de la consulta.</li>
+            </ul>
+            <div class="code-block">
+                ' OR 1=1--
+            </div>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-check-double"></i> Verificación y Explicación</h3>
+            <p>Al insertar el payload, la consulta resultante en el servidor se transforma de una búsqueda filtrada a una condición universalmente verdadera. La comilla simple <code>'</code> cierra la cadena de la categoría, <code>OR 1=1</code> genera una sentencia verdadera para cada fila de la tabla, y los guiones <code>--</code> comentan el resto de la consulta original (como el filtro de productos no publicados). Como resultado, la base de datos devuelve la totalidad de los registros de productos al servidor.</p>
+        </section>
+
+        <section class="solved-capture">
+            <h4><i class="fa-solid fa-trophy"></i> Evidencia de Resolución</h4>
+            <img src="img/solved_lab02.png" alt="Laboratorio 02 Resuelto">
+            <p class="placeholder-text">Captura de pantalla confirmando el estado "Congratulations, you solved the lab!"</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Portafolio de Seguridad Informática 2026</p>
+    </footer>
+</body>
+</html>

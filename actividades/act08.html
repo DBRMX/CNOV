@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection | Road to Hall of Fame</title>
+    <link rel="icon" href="icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --light: #9DECFA; --bg: #D4F8FF; --white: #ffffff;
+            --apprentice: #8ed5fa; --practitioner: #ffaa00; --expert: #df3a01;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
+        
+        /* --- NAVEGACIÓN (Sincronizada con inicio.html) --- */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--white); min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
+            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { color: #555; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* --- HERO BANNER --- */
+        .hero-banner { 
+            padding: 5rem 10%; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white; text-align: center; clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        .hero-banner h1 { font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-banner p { font-size: 1.2rem; opacity: 0.9; margin-top: 15px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* --- ROADMAP EN Z --- */
+        .roadmap-wrapper { padding: 4rem 10%; position: relative; max-width: 1200px; margin: auto; }
+        
+        /* Línea central del camino */
+        .roadmap-wrapper::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
+            width: 6px; background: var(--bg); transform: translateX(-50%); z-index: 1;
+        }
+
+        .lab-entry { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 80px; position: relative; z-index: 2; width: 100%;
+        }
+
+        /* Lógica ZigZag */
+        .lab-entry:nth-child(even) { flex-direction: row-reverse; }
+
+        .lab-content { width: 42%; }
+        .lab-node { 
+            width: 60px; height: 60px; background: var(--white); border: 6px solid var(--secondary); 
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            font-weight: 800; color: var(--primary); box-shadow: 0 0 20px rgba(3,83,97,0.2);
+            font-size: 1.2rem;
+        }
+
+        /* Tarjeta Estilo PortSwigger */
+        .portswigger-card { 
+            background: white; border: 1px solid #ddd; border-radius: 4px; padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: 0.3s; text-align: left;
+        }
+        .portswigger-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.1); border-color: var(--accent); }
+        
+        .lab-tag { 
+            font-size: 0.7rem; font-weight: 800; text-transform: uppercase; 
+            padding: 3px 10px; border-radius: 3px; margin-bottom: 12px; display: inline-block;
+        }
+        .apprentice { background: #e6f7ff; color: #0070a3; border: 1px solid #91d5ff; }
+        .practitioner { background: #fff7e6; color: #d46b08; border: 1px solid #ffd591; }
+        .expert { background: #fff1f0; color: #cf1322; border: 1px solid #ffa39e; }
+
+        .lab-title { font-size: 1rem; color: #222; margin: 8px 0; line-height: 1.3; font-weight: 700; }
+        .lab-desc { font-size: 0.85rem; color: #666; margin-bottom: 15px; line-height: 1.5; }
+        
+        .btn-lab { 
+            display: inline-flex; align-items: center; gap: 8px; background: var(--primary); 
+            color: white; text-decoration: none; padding: 10px 18px; border-radius: 4px; 
+            font-size: 0.8rem; font-weight: bold; transition: 0.2s;
+        }
+        .btn-lab:hover { background: var(--secondary); }
+
+        /* Pie de página de descarga */
+        .footer-download { 
+            background: var(--bg); padding: 5rem 10%; text-align: center; border-top: 2px solid var(--accent);
+        }
+        .btn-main-download {
+            background: var(--primary); color: white; padding: 18px 45px; border-radius: 50px;
+            text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-flex; align-items: center; gap: 15px;
+            box-shadow: 0 10px 25px rgba(3,83,97,0.3); transition: 0.3s;
+        }
+        .btn-main-download:hover { transform: translateY(-5px); background: var(--secondary); }
+
+        footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+    </script>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
+        </a>
+        <div class="nav-links">
+            <a href="../inicio.html" class="active">Inicio</a>
+
+            <div class="dropdown">
+                <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../pf01.html">Actividades</a>
+                    <a href="../pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../pf02.html">Actividades</a>
+                    <a href="../pf02_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Actividades</a>
+                    <a href="#">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../act08.html">SQL Injection</a>
+                </div>
+            </div>
+
+            <a href="#" class="nav-link-item">Final</a>
+            <a href="#contacto" class="nav-link-item">Contacto</a>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
+        </div>
+    </nav>
+
+    <header class="hero-banner">
+        <h1>SQL Injection Roadmap</h1>
+        <p>Ruta de aprendizaje técnico cubriendo los 18 laboratorios esenciales de PortSwigger Academy para el dominio de Inyecciones SQL.</p>
+    </header>
+
+    <main class="roadmap-wrapper">
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag apprentice">Apprentice</span>
+                    <h3 class="lab-title">WHERE clause allowing retrieval of hidden data</h3>
+                    <p class="lab-desc">Vulneración de filtros de categorías para listar productos no publicados.</p>
+                    <a href="labs/sql01.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">01</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">02</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag apprentice">Apprentice</span>
+                    <h3 class="lab-title">Login bypass</h3>
+                    <p class="lab-desc">Uso de comentarios SQL para saltar la autenticación administrativa.</p>
+                    <a href="labs/sql02.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">UNION attack, determining column count</h3>
+                    <p class="lab-desc">Identificación de la estructura de la consulta mediante NULLs.</p>
+                    <a href="labs/sql03.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">03</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">04</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">UNION attack, finding column with text</h3>
+                    <p class="lab-desc">Mapeo de tipos de datos para exfiltración de strings.</p>
+                    <a href="labs/sql04.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">UNION attack, retrieving data from other tables</h3>
+                    <p class="lab-desc">Acceso a la tabla 'users' para recuperar contraseñas.</p>
+                    <a href="labs/sql05.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">05</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">06</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">UNION attack, retrieving multiple values in one column</h3>
+                    <p class="lab-desc">Concatenación de campos para evadir límites de visualización.</p>
+                    <a href="labs/sql06.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Database type and version on Oracle</h3>
+                    <p class="lab-desc">Consultas a tablas duales para fingerprinting de Oracle.</p>
+                    <a href="labs/sql07.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">07</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">08</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Database type and version on MySQL/Microsoft</h3>
+                    <p class="lab-desc">Identificación de versiones mediante comentarios específicos.</p>
+                    <a href="labs/sql08.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Listing contents on non-Oracle databases</h3>
+                    <p class="lab-desc">Uso de information_schema para mapear esquemas.</p>
+                    <a href="labs/sql09.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">09</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">10</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Listing contents on Oracle</h3>
+                    <p class="lab-desc">Enumeración de tablas de sistema en entornos Oracle.</p>
+                    <a href="labs/sql10.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with conditional responses</h3>
+                    <p class="lab-desc">Inferencia de datos basada en contenido de la página.</p>
+                    <a href="labs/sql11.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">11</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">12</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with conditional errors</h3>
+                    <p class="lab-desc">Exfiltración forzando errores lógicos del servidor.</p>
+                    <a href="labs/sql12.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Visible error-based SQL injection</h3>
+                    <p class="lab-desc">Captura de credenciales en el mensaje de error.</p>
+                    <a href="labs/sql13.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">13</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">14</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with time delays</h3>
+                    <p class="lab-desc">Confirmación de vulnerabilidad mediante retardos.</p>
+                    <a href="labs/sql14.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with time delays and info retrieval</h3>
+                    <p class="lab-desc">Extracción de datos mediante respuestas temporales.</p>
+                    <a href="labs/sql15.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">15</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">16</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with OOB interaction</h3>
+                    <p class="lab-desc">Uso de Burp Collaborator para interacción externa.</p>
+                    <a href="labs/sql16.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">Blind SQLi with OOB data exfiltration</h3>
+                    <p class="lab-desc">Recuperación de datos mediante consultas DNS.</p>
+                    <a href="labs/sql17.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+            <div class="lab-node">17</div>
+            <div class="lab-content"></div>
+        </div>
+
+        <div class="lab-entry">
+            <div class="lab-content"></div>
+            <div class="lab-node">18</div>
+            <div class="lab-content">
+                <div class="portswigger-card">
+                    <span class="lab-tag practitioner">Practitioner</span>
+                    <h3 class="lab-title">SQLi with filter bypass via XML encoding</h3>
+                    <p class="lab-desc">Evasión de filtros mediante codificación de entidades XML.</p>
+                    <a href="labs/sql18.html" class="btn-lab"><i class="fa-solid fa-terminal"></i> Ver Solución</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <section class="footer-download">
+        <h2>Evidencia Técnica Consolidada</h2>
+        <p>Descarga el reporte detallado que documenta el procedimiento y verificación de los 18 laboratorios realizados.</p>
+        <br>
+        <a href="evidencias/act08-Equipo1.pdf" download class="btn-main-download">
+            <i class="fa-solid fa-file-pdf"></i> ACTIVIDAD 08
+        </a>
+    </section>
+
+    <footer>
+        <p>© 2026. David Beltrán Reyna - 183636 | UPSLP</p>
+        <p>Road to Hall of Fame: SQL Injection Specialist</p>
+    </footer>
+
+</body>
+</html>
