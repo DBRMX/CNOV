@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR01 | Walkthrough en Acción - Snakeoil</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff; --code-bg: #1e1e1e;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Barra de retorno */
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+        
+        /* Encabezado del Proyecto */
+        .project-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .project-header h1 { color: var(--primary); font-size: 2.2rem; margin: 0; }
+        .project-header h2 { color: var(--secondary); font-size: 1.2rem; margin-top: 0.5rem; }
+        .meta-info { margin-top: 1.5rem; display: flex; justify-content: center; gap: 25px; font-size: 0.9rem; font-weight: 600; color: #666; }
+
+        /* Contenedor de Video YouTube */
+        .video-section { margin: 3rem 0; }
+        .video-responsive {
+            overflow: hidden; padding-bottom: 56.25%; position: relative; height: 0;
+            border-radius: 15px; box-shadow: 0 10px 30px rgba(3,83,97,0.2); border: 2px solid var(--accent);
+        }
+        .video-responsive iframe { left: 0; top: 0; height: 100%; width: 100%; position: absolute; border: none; }
+
+        /* Secciones de Contenido */
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3.5rem; text-transform: uppercase; font-size: 1.3rem; }
+        p { text-align: justify; }
+
+        .code-block { 
+            background: var(--code-bg); color: #dcdcdc; padding: 1.2rem; 
+            border-radius: 8px; font-family: 'Courier New', Courier, monospace; 
+            margin: 1.5rem 0; border-left: 5px solid var(--accent); font-size: 0.9rem;
+        }
+
+        /* Botonera de Descarga */
+        .download-box { 
+            background: var(--bg); padding: 2.5rem; border-radius: 20px; 
+            text-align: center; margin: 4rem 0; border: 2px dashed var(--primary); 
+        }
+        .btn-mp4 { 
+            display: inline-flex; align-items: center; gap: 12px; background: var(--primary); 
+            color: white; padding: 15px 35px; border-radius: 50px; text-decoration: none; 
+            font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(3,83,97,0.3);
+        }
+        .btn-mp4:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(3,83,97,0.4); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01_proyectos.html">VOLVER A PROYECTOS - PRIMER PARCIAL</a>
+    </div>
+
+    <div class="content-container">
+        <header class="project-header">
+            <h1>PR01: Walkthrough en Acción</h1>
+            <h2>Vulneración de la máquina "Snakeoil" (VulnHub)</h2>
+            <div class="meta-info">
+                <span><i class="fa-solid fa-user"></i> David Beltrán Reyna</span>
+                <span><i class="fa-solid fa-shield-halved"></i> Entorno Aislado</span>
+            </div>
+        </header>
+
+        <section class="video-section">
+            <div class="video-responsive">
+                <iframe src="https://youtu.be/cX97HFg5NoY?si=MjGdKDPVHFqhpCbJ" title="Walkthrough Snakeoil PR01" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <section id="objetivo">
+            <h3>Objetivo del Proyecto</h3>
+            <p>
+                Demostrar la capacidad técnica de aplicar metodologías de seguridad ofensiva en un entorno de virtualización controlado. El proyecto consiste en realizar un compromiso completo de la máquina virtual <strong>Snakeoil</strong>, documentando desde el reconocimiento inicial hasta la escalada de privilegios y el control total del sistema.
+            </p>
+        </section>
+
+        <section id="desarrollo">
+            <h3>Fases de la Auditoría Técnica</h3>
+            
+            <p><strong>1. Reconocimiento y Escaneo:</strong> Se utiliza un entorno de red aislado para identificar el objetivo y descubrir puertos abiertos.</p>
+            <div class="code-block">
+                # Escaneo inicial de servicios y versiones<br>
+                nmap -sC -sV -oN scan_snakeoil.txt 192.168.1.10
+            </div>
+
+            <p><strong>2. Enumeración de Servicios:</strong> Investigación detallada de aplicaciones web y servicios en ejecución para obtener información crítica del sistema.</p>
+
+            <p><strong>3. Análisis de Vulnerabilidades:</strong> Evaluación de riesgos y búsqueda de exploits públicos asociados a las versiones detectadas.</p>
+            
+
+            <p><strong>4. Explotación:</strong> Selección y adaptación de scripts maliciosos para ganar el acceso inicial mediante la vulneración de servicios expuestos.</p>
+
+            <p><strong>5. Post-Explotación y Escalada:</strong> Ejecución de comandos internos para elevar privilegios hasta obtener acceso administrativo (Root) y establecer persistencia.</p>
+            <div class="code-block">
+                # Verificación de privilegios tras la explotación<br>
+                whoami && id && uname -a
+            </div>
+        </section>
+
+        <section class="download-box">
+            <h3><i class="fa-solid fa-cloud-arrow-down"></i> Archivos Multimedia Originales</h3>
+            <a href="#" download class="btn-mp4">
+                <i class="fa-solid fa-file-video"></i> PR01
+            </a>
+            <p style="font-size: 0.8rem; margin-top: 15px; color: #666;">Peso estimado: ~22MB | Formato: MP4</p>
+        </section>
+
+        <section id="conclusiones">
+            <h3>Conclusiones Técnicas</h3>
+            <p>
+                El walkthrough permitió validar la efectividad de una metodología estructurada, relacionando las técnicas de intrusión con los fundamentos teóricos de seguridad informática. Se logró una comprensión profunda de los vectores de ataque comunes y la importancia del endurecimiento de sistemas.
+            </p>
+        </section>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna - 183636 | Ingeniería en Tecnologías de la Información</p>
+        <p>CNO V: Seguridad Informática - Proyecto Walkthrough 2026</p>
+    </footer>
+
+</body>
+</html>

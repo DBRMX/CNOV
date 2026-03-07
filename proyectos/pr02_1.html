@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR02 | Simulación de Phishing - Análisis Comparativo</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Barra de retorno */
+        .back-nav { 
+            padding: 1rem 10%; background: var(--primary); color: white; 
+            display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000;
+        }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .content-container { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+        
+        /* Encabezado */
+        .project-header { text-align: center; border-bottom: 3px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .project-header h1 { color: var(--primary); font-size: 2.2rem; margin: 0; }
+        .project-header h2 { color: var(--secondary); font-size: 1.2rem; margin-top: 0.5rem; }
+        
+        .meta-box { background: var(--bg); padding: 1.5rem; border-radius: 12px; display: inline-block; margin-top: 1.5rem; border: 1px solid var(--accent); text-align: left; }
+        .meta-box ul { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; }
+        .meta-box li strong { color: var(--primary); }
+
+        /* Secciones de Contenido */
+        h3 { color: var(--primary); border-left: 6px solid var(--accent); padding-left: 15px; margin-top: 3.5rem; text-transform: uppercase; font-size: 1.3rem; }
+        p { text-align: justify; margin-bottom: 1.2rem; }
+
+        /* Pilares de Medición */
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 2rem 0; }
+        .metric-card { background: #f9fdfd; border: 1px solid #eee; padding: 1.5rem; border-radius: 10px; border-top: 4px solid var(--secondary); }
+        .metric-card h4 { color: var(--primary); margin-top: 0; display: flex; align-items: center; gap: 10px; }
+
+        /* Tabla Comparativa */
+        .table-wrapper { overflow-x: auto; margin: 2rem 0; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 900px; font-size: 0.9rem; }
+        th { background: var(--primary); color: white; padding: 15px; text-align: left; }
+        td { padding: 15px; border: 1px solid #eee; vertical-align: top; }
+        tr:nth-child(even) { background-color: #f8fdfd; }
+        .platform-name { font-weight: bold; color: var(--primary); background: var(--bg) !important; text-align: center; vertical-align: middle; }
+
+        /* Principios Éticos */
+        .ethics-box { background: var(--primary); color: white; padding: 2.5rem; border-radius: 20px; margin: 4rem 0; }
+        .ethics-box h3 { color: var(--accent); border-left-color: var(--accent); margin-top: 0; }
+        .ethics-list { list-style: none; padding: 0; }
+        .ethics-list li { margin-bottom: 20px; padding-left: 30px; position: relative; }
+        .ethics-list li i { position: absolute; left: 0; top: 5px; color: var(--accent); }
+
+        .conclusion-block { background: var(--bg); padding: 2rem; border-radius: 15px; border-left: 8px solid var(--primary); font-style: italic; }
+
+        /* BLOQUE DE DESCARGA */
+        .download-footer { 
+            margin: 4rem 0; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(3,83,97,0.3); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 5rem; font-size: 0.8rem; }
+        
+        .references { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #eee; font-size: 0.85rem; color: #666; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "../index.html"; }
+    </script>
+</head>
+<body>
+
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../pf01_proyectos.html">VOLVER A PROYECTOS - PRIMER PARCIAL</a>
+    </div>
+
+    <div class="content-container">
+        <header class="project-header">
+            <h1>PR02 - Parte 1 </h1>
+            <h2>Investigación Comparativa de Plataformas de Simulación de Phishing</h2>
+            
+            <div class="meta-box">
+                <ul>
+                    <li><strong>Estudiante:</strong> Beltrán Reyna David - 183636 </li>
+                    <li><strong>Institución:</strong> Universidad Politécnica de San Luis Potosí </li>
+                    <li><strong>Asignatura:</strong> CNO V: Seguridad Informática </li>
+                    <li><strong>Profesor:</strong> Mtro. Servando López Contreras </li>
+                    <li><strong>Fecha de entrega:</strong> 6 de marzo de 2026 </li>
+                </ul>
+            </div>
+        </header>
+
+        <section id="investigacion">
+            <h3>Investigación de Plataformas </h3>
+            <p>
+                La ciberseguridad moderna ha identificado que el factor humano no es un problema que deba "parchearse", sino una capacidad que debe desarrollarse. El enfoque ha transitado de un modelo de cumplimiento (basado en marcar una casilla de entrenamiento anual) a uno de resiliencia operativa, donde el usuario se convierte en un sensor activo de amenazas.
+            </p>
+        </section>
+
+        <section id="metricas">
+            <h3>Métricas Críticas para la Evaluación del Comportamiento </h3>
+            <p>Para que una estrategia de concientización sea efectiva, debe basarse en métricas que reflejen un cambio de comportamiento real y no solo una estadística de fallos. La efectividad de las plataformas analizadas se fundamenta en tres pilares de medición:</p>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <h4><i class="fa-solid fa-mouse-pointer"></i> 1. Tasa de Apertura y Clic (Click Rate) </h4>
+                    <p>Aunque es la métrica más visible, mide la vulnerabilidad inicial. Por sí sola, es insuficiente para evaluar la cultura de seguridad, ya que no contempla la capacidad de respuesta.</p>
+                </div>
+                <div class="metric-card">
+                    <h4><i class="fa-solid fa-bullhorn"></i> 2. Tasa de Reporte (Reporting Rate) </h4>
+                    <p>Considerado el indicador de éxito más crítico. Mide la proactividad del usuario al utilizar herramientas de alerta. Una alta tasa de reporte indica que la organización posee una "inmunidad colectiva" activa.</p>
+                </div>
+                <div class="metric-card">
+                    <h4><i class="fa-solid fa-chart-line"></i> 3. Puntuación de Riesgo (Risk Score) </h4>
+                    <p>Es un cálculo algorítmico avanzado que cruza el historial de comportamiento del usuario, su departamento y su nivel de acceso a datos sensibles para predecir la probabilidad de un incidente real.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparativa">
+            <h3>Análisis Comparativo de las 8 Plataformas Líderes </h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plataforma </th>
+                            <th>Descripción Técnica y Enfoque </th>
+                            <th>Diferenciador Estratégico </th>
+                            <th>Orientación </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="platform-name">KnowBe4 </td>
+                            <td>Plataforma masiva con la biblioteca más grande de contenido educativo y simulaciones.</td>
+                            <td>Utiliza benchmarking por industria para comparar la resiliencia de la empresa frente a sus pares.</td>
+                            <td>Resiliencia operativa masiva.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Proofpoint </td>
+                            <td>Se integra profundamente con la infraestructura de seguridad de correo electrónico real.</td>
+                            <td>Identifica a los "Usuarios Muy Atacados" (VAPs), personalizando el entrenamiento según la amenaza real.</td>
+                            <td>Defensa técnica y humana integrada.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Hoxhunt </td>
+                            <td>Enfoque centrado en la psicología del comportamiento mediante simulaciones dinámicas y gamificadas.</td>
+                            <td>Automatiza el aprendizaje basado en el éxito del usuario, ajustando la dificultad de forma individualizada.</td>
+                            <td>Ciencia del comportamiento y hábito.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Infosec IQ </td>
+                            <td>Ofrece una gestión integral del aprendizaje (LMS) con un fuerte enfoque en el cumplimiento normativo.</td>
+                            <td>Proporciona perfiles de riesgo detallados y rutas de aprendizaje personalizadas por roles laborales.</td>
+                            <td>Gobernanza y perfiles de riesgo.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Mimecast </td>
+                            <td>Solución que combina la seguridad de la puerta de enlace de correo con módulos de video humorísticos.</td>
+                            <td>Se enfoca en reducir el "ruido" de las alertas mediante entrenamientos cortos de alto impacto visual.</td>
+                            <td>Retención de conocimiento.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">NINJIO </td>
+                            <td>Especializada en micro-aprendizaje a través de episodios de estilo narrativo basados en brechas reales.</td>
+                            <td>Utiliza el storytelling para generar una conexión emocional que facilite la recordación del riesgo[cite: 731, 732].</td>
+                            <td>Aprendizaje narrativo/emocional.</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Phished </td>
+                            <td>Plataforma impulsada por IA que automatiza completamente el proceso de simulación sin intervención manual.</td>
+                            <td>Su algoritmo garantiza que cada usuario reciba un simulacro único y relevante para su contexto diario.</td>
+                            <td>Automatización inteligente (IA).</td>
+                        </tr>
+                        <tr>
+                            <td class="platform-name">Cofense </td>
+                            <td>Centrada en la detección temprana y la respuesta colaborativa ante incidentes activos.</td>
+                            <td>El núcleo de su éxito es el botón de reporte, transformando al empleado en un analista de seguridad de primera línea.</td>
+                            <td>Respuesta a incidentes (SOC).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="ethics-box">
+            <h3>Fundamentos Éticos y Estratégicos del Programa </h3>
+            <p>Para que las simulaciones sean válidas bajo estándares profesionales, la implementación debe considerar tres principios éticos:</p>
+            <ul class="ethics-list">
+                <li>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <strong>1. "Teachable Moment" :</strong> La educación debe ocurrir inmediatamente después de que el usuario comete un error en la simulación, aprovechando la receptividad del momento sin generar sentimientos de culpa.
+                </li>
+                <li>
+                    <i class="fa-solid fa-user-lock"></i>
+                    <strong>2. Privacy by Design :</strong> Los resultados individuales deben ser tratados con estricta confidencialidad. El objetivo es identificar brechas de conocimiento para capacitar, no para sancionar o castigar al empleado.
+                </li>
+                <li>
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <strong>3. Refuerzo Positivo :</strong> El programa debe premiar y reconocer públicamente a aquellos usuarios que demuestren altos índices de reporte, fomentando una cultura donde la seguridad sea una responsabilidad compartida.
+                </li>
+            </ul>
+        </section>
+
+        <section id="conclusiones">
+            <h3>Conclusiones </h3>
+            <div class="conclusion-block">
+                <p>
+                    La comparación de estas ocho plataformas revela que la ciberseguridad humana ha trascendido la simple entrega de contenido. La elección de una herramienta debe alinearse con la cultura organizacional y priorizar aquellas que ofrezcan métricas de reporte y cambio de hábito. En última instancia, una organización resiliente es aquella donde los empleados no solo evitan el clic, sino que alertan activamente a sus equipos de seguridad sobre las amenazas entrantes.
+                </p>
+            </div>
+        </section>
+
+        <section class="download-footer">
+            <h3><i class="fa-solid fa-file-pdf"></i> Evidencia original</h3>
+            <a href="../evidencias/183636_pr02_1.pdf" download class="btn-download">
+                <i class="fa-solid fa-download"></i> PR02
+            </a>
+        </section>
+
+        <section class="references">
+            <h4>Fuentes de Información y Referencias Técnicas </h4>
+            <ul>
+                <li>Cofense. (2023). The 2023 Annual State of Phishing Report.</li>
+                <li>Gartner. (2022). Magic Quadrant for Security Awareness Computer-Based Training.</li>
+                <li>Hoxhunt. (2024). The Science of Behavior Change in Cybersecurity.</li>
+                <li>Infosec Institute. (2024). Infosec IQ security awareness training platform.</li>
+                <li>KnowBe4. (2023). 2023 Phishing by Industry Benchmarking Report.</li>
+                <li>Proofpoint. (2024). State of the Phish 2024.</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Análisis de Seguridad Humana: Simulación de Phishing - 2026</p>
+    </footer>
+
+</body>
+</html>
