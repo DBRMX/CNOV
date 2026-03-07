@@ -18,17 +18,79 @@
         
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
         
-        /* Navegación Estilo Profesional */
+        /* --- NAVEGACIÓN Y DROPDOWNS --- */
         nav { 
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
             position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
+
         .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-        .nav-links a { text-decoration: none; color: #555; margin-left: 1.5rem; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        
+        .nav-links { display: flex; align-items: center; }
+
+        /* Links base */
+        .nav-links a { 
+            text-decoration: none; 
+            color: #555; 
+            font-weight: 600; 
+            transition: 0.3s; 
+            font-size: 0.9rem; 
+        }
+
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        /* Hero / Encabezado (Punto 1 de Requerimientos) */
+        /* Contenedor del Dropdown */
+        .dropdown { 
+            position: relative; 
+            display: inline-block; 
+            margin-left: 1.5rem; 
+        }
+
+        .dropdown > a { cursor: pointer; }
+
+        /* Lista desplegable */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            border: 1px solid var(--bg);
+            top: 100%;
+            left: 0;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        /* Mostrar al pasar el cursor */
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* Elementos dentro del dropdown */
+        .dropdown-content a {
+            color: #555;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--bg);
+            transition: 0.2s;
+        }
+
+        .dropdown-content a:last-child { border-bottom: none; }
+
+        .dropdown-content a:hover {
+            background-color: var(--bg);
+            color: var(--primary);
+            padding-left: 20px; /* Efecto sutil de desplazamiento */
+        }
+
+        /* Ajuste para los links que no son dropdown */
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* --- RESTO DE ESTILOS (HERO, SECCIONES, ETC) --- */
         .hero { 
             padding: 5rem 10%; background: linear-gradient(135deg, var(--bg) 0%, var(--white) 100%);
             display: flex; align-items: center; justify-content: space-between; min-height: 60vh;
@@ -41,27 +103,22 @@
         .hero-img { flex: 1; text-align: right; }
         .hero-img img { width: 75%; filter: drop-shadow(10px 10px 20px rgba(3,83,97,0.1)); }
 
-        /* Contenedor General de Secciones */
         .section-container { padding: 4rem 10%; }
         section { margin-bottom: 5rem; }
         .section-title { color: var(--primary); border-bottom: 3px solid var(--accent); display: inline-block; padding-bottom: 5px; margin-bottom: 1.5rem; }
 
-        /* Presentación (Punto 2) */
         .card-box { background: var(--bg); padding: 2.5rem; border-radius: 15px; border-left: 8px solid var(--primary); }
 
-        /* Perfil (Punto 3) */
         .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
         .interests-list { list-style: none; padding: 0; }
         .interests-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .interests-list i { color: var(--secondary); }
 
-        /* Información Técnica (Punto 4) */
         .grid-tech { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
         .tech-card { padding: 1.5rem; background: var(--white); border: 1px solid var(--accent); border-radius: 12px; transition: 0.3s; text-align: center; }
         .tech-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(3,83,97,0.1); border-color: var(--primary); }
         .tech-card i { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
 
-        /* Formulario (Punto 5) */
         .contact-card { background: var(--primary); color: white; padding: 3rem; border-radius: 20px; box-shadow: 0 15px 30px rgba(3,83,97,0.3); }
         .contact-card input, .contact-card textarea { 
             width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 8px; box-sizing: border-box; 
@@ -72,7 +129,6 @@
         }
         .btn-submit:hover { background: var(--light); transform: scale(1.02); }
 
-        /* Footer (Punto 6 y 7) */
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; }
         .ssl-badge { 
             display: inline-flex; align-items: center; gap: 10px; padding: 10px 25px; 
@@ -93,12 +149,34 @@
         </a>
         <div class="nav-links">
             <a href="#inicio" class="active">Inicio</a>
-            <a href="pf01.html">PF01</a>
-            <a href="">PF02</a>
-            <a href="">PF03</a>
-            <a href="">Final</a>
-            <a href="#contacto">Contacto</a>
-            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" style="color:#ff7675">Salir</a>
+
+            <div class="dropdown">
+                <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf01.html">Actividades</a>
+                    <a href="pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Actividades</a>
+                    <a href="#">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="#">Actividades</a>
+                    <a href="#">Proyectos</a>
+                </div>
+            </div>
+
+            <a href="#" class="nav-link-item">Final</a>
+            <a href="#contacto" class="nav-link-item">Contacto</a>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
         </div>
     </nav>
 
@@ -198,5 +276,3 @@
 
 </body>
 </html>
-
-
