@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 03 | Detalle Técnico</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #035361; --secondary: #228394; --accent: #56B6C7; --bg: #D4F8FF; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--white); color: #333; line-height: 1.6; }
+        
+        .back-nav { padding: 1rem 8%; background: var(--primary); color: white; display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .lab-detail-container { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .header-box { border-bottom: 3px solid var(--primary); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header-box h1 { color: var(--primary); margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+        
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; margin-top: 10px; text-transform: uppercase; }
+        .practitioner { background: #fff7e6; color: #d46b08; border: 1px solid #ffd591; }
+
+        h3 { color: var(--secondary); border-left: 5px solid var(--accent); padding-left: 10px; margin-top: 2.5rem; }
+        .code-block { background: #1e1e1e; color: #dcdcdc; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; margin: 1rem 0; overflow-x: auto; font-size: 0.9rem; position: relative;}
+        .code-block::after { content: "PAYLOAD"; position: absolute; top: 0; right: 10px; font-size: 0.7rem; color: var(--accent); font-weight: bold;}
+        
+        .step-list { padding-left: 20px; }
+        .step-list li { margin-bottom: 15px; }
+
+        .solved-capture {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border: 2px dashed var(--accent);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .solved-capture h4 { color: var(--primary); margin-bottom: 1rem; }
+        .solved-capture img { 
+            max-width: 100%; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            display: block;
+            margin: auto;
+        }
+        .placeholder-text { color: #999; font-style: italic; }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../act08.html">VOLVER A HALL OF FAME</a>
+    </div>
+
+    <div class="lab-detail-container">
+        <div class="header-box">
+            <h1>Lab 03: SQL injection UNION attack, determining the number of columns returned by the query</h1>
+            <span class="tag practitioner">Practitioner</span>
+        </div>
+
+        <section>
+            <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+            <p>Este laboratorio contiene una vulnerabilidad de inyección SQL en el filtro de categorías de productos. El objetivo es determinar el número de columnas devueltas por la consulta original utilizando un ataque <code>UNION</code>. El laboratorio se resolverá exitosamente cuando se inyecte un payload que determine la cantidad exacta de columnas sin provocar un error en la aplicación.</p>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-gears"></i> Procedimiento Técnico</h3>
+            
+            <ul class="step-list">
+                <li>Interceptar con Burp Suite la petición del filtro de categoría.</li>
+                <li>Utilizar la técnica de valores <code>NULL</code> para evitar errores de tipo de datos mientras se busca la estructura.</li>
+                <li>Incrementar el número de valores <code>NULL</code> en la sentencia <code>UNION SELECT</code> hasta que la página cargue correctamente sin devolver un error HTTP 500.</li>
+            </ul>
+            <div class="code-block">
+                ' UNION SELECT NULL,NULL,NULL--
+            </div>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-check-double"></i> Verificación y Explicación</h3>
+            <p>Para que un ataque <code>UNION</code> sea exitoso, la consulta inyectada debe devolver el mismo número de columnas que la consulta original. Al inyectar una serie de <code>NULL</code>, estamos probando la estructura de la tabla de forma segura. En este caso específico, al inyectar tres valores <code>NULL</code>, la aplicación dejó de mostrar un error de servidor, lo que confirma que la consulta original recupera exactamente tres columnas de la base de datos.</p>
+        </section>
+
+        <section class="solved-capture">
+            <h4><i class="fa-solid fa-trophy"></i> Evidencia de Resolución</h4>
+            <img src="img/solved_lab03.png" alt="Laboratorio 03 Resuelto">
+            <p class="placeholder-text">Captura de pantalla confirmando el estado "Congratulations, you solved the lab!"</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Portafolio de Seguridad Informática 2026</p>
+    </footer>
+</body>
+</html>

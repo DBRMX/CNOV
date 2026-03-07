@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 08 | Detalle Técnico</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #035361; --secondary: #228394; --accent: #56B6C7; --bg: #D4F8FF; --white: #ffffff; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--white); color: #333; line-height: 1.6; }
+        
+        .back-nav { padding: 1rem 8%; background: var(--primary); color: white; display: flex; align-items: center; gap: 15px; position: sticky; top: 0; z-index: 1000; }
+        .back-nav a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        .lab-detail-container { max-width: 900px; margin: 4rem auto; padding: 0 2rem; }
+        .header-box { border-bottom: 3px solid var(--primary); padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header-box h1 { color: var(--primary); margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+        
+        .tag { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; margin-top: 10px; text-transform: uppercase; }
+        .practitioner { background: #fff7e6; color: #d46b08; border: 1px solid #ffd591; }
+
+        h3 { color: var(--secondary); border-left: 5px solid var(--accent); padding-left: 10px; margin-top: 2.5rem; }
+        .code-block { background: #1e1e1e; color: #dcdcdc; padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace; margin: 1rem 0; overflow-x: auto; font-size: 0.9rem; position: relative;}
+        .code-block::after { content: "PAYLOAD"; position: absolute; top: 0; right: 10px; font-size: 0.7rem; color: var(--accent); font-weight: bold;}
+        
+        .step-list { padding-left: 20px; }
+        .step-list li { margin-bottom: 15px; }
+
+        .solved-capture {
+            margin-top: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border: 2px dashed var(--accent);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .solved-capture h4 { color: var(--primary); margin-bottom: 1rem; }
+        .solved-capture img { 
+            max-width: 100%; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+            display: block;
+            margin: auto;
+        }
+        .placeholder-text { color: #999; font-style: italic; }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <div class="back-nav">
+        <i class="fa-solid fa-arrow-left"></i>
+        <a href="../act08.html">VOLVER A HALL OF FAME</a>
+    </div>
+
+    <div class="lab-detail-container">
+        <div class="header-box">
+            <h1>Lab 08: SQL injection UNION attack, retrieving the database type and version on MySQL and Microsoft</h1>
+            <span class="tag practitioner">Practitioner</span>
+        </div>
+
+        <section>
+            <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+            <p>La aplicación presenta una vulnerabilidad de inyección SQL en el filtro de categorías. El objetivo es ejecutar un ataque <code>UNION</code> que permita recuperar la versión de la base de datos. El laboratorio se considera resuelto cuando la página renderiza la información de la versión de **MySQL** o **Microsoft SQL Server**.</p>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-gears"></i> Procedimiento Técnico</h3>
+            
+            <ul class="step-list">
+                <li>Determinar el número de columnas devueltas por la consulta original (en este caso son 2).</li>
+                <li>Identificar qué columna es compatible con tipos de datos string para visualizar la versión.</li>
+                <li>Inyectar el payload utilizando la variable global <code>@@version</code> y cerrar la consulta con el carácter de comentario específico para este motor.</li>
+            </ul>
+            <div class="code-block">
+                ' UNION SELECT @@version, NULL%23
+            </div>
+        </section>
+
+        <section>
+            <h3><i class="fa-solid fa-check-double"></i> Verificación y Explicación</h3>
+            <p>A diferencia de Oracle, motores como MySQL y Microsoft SQL Server no requieren la cláusula <code>FROM</code> para consultas de valores constantes o variables de sistema. La variable <code>@@version</code> contiene la información detallada del motor en ejecución. Un detalle crítico es el uso de <code>#</code> (codificado como <code>%23</code> en la URL) para comentar el resto de la consulta, ya que el uso de guiones <code>--</code> requiere un espacio posterior que a veces el navegador puede truncar.</p>
+        </section>
+
+        <section class="solved-capture">
+            <h4><i class="fa-solid fa-trophy"></i> Evidencia de Resolución</h4>
+            <img src="img/solved_lab08.png" alt="Laboratorio 08 Resuelto">
+            <p class="placeholder-text">Captura de pantalla confirmando el estado "Congratulations, you solved the lab!"</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>David Beltrán Reyna | Portafolio de Seguridad Informática 2026</p>
+    </footer>
+</body>
+</html>
