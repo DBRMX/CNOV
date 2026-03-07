@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PF01 | Proyectos Parcial 1</title>
+    <link rel="icon" href="icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; 
+            --secondary: #228394; 
+            --accent: #56B6C7; 
+            --light: #9DECFA; 
+            --bg: #D4F8FF; 
+            --white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
+        
+        /* --- NAVEGACIÓN Y DROPDOWNS --- */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--white); min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
+            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a {
+            color: #555; padding: 12px 16px; text-decoration: none; display: block;
+            font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s;
+        }
+        .dropdown-content a:last-child { border-bottom: none; }
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* --- CONTENIDO --- */
+        .hero-parcial { 
+            padding: 4rem 10%; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white; text-align: center;
+        }
+        .hero-parcial h1 { margin: 0; font-size: 2.5rem; }
+        .hero-parcial p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
+
+        .section-container { padding: 4rem 10%; max-width: 1100px; margin: auto; }
+        
+        .activity-card { 
+            background: var(--white); border: 1px solid #eee; border-radius: 15px; 
+            padding: 2rem; margin-bottom: 3rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--accent);
+        }
+
+        .activity-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .activity-title h2 { margin: 0; color: var(--primary); font-size: 1.5rem; }
+        .activity-date { font-size: 0.85rem; color: #777; font-weight: bold; background: var(--bg); padding: 5px 12px; border-radius: 20px; }
+
+        .info-block { margin-bottom: 1.5rem; }
+        .info-block h3 { font-size: 1rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .info-block p { margin: 0; line-height: 1.6; text-align: justify; }
+
+        .evidence-actions { display: flex; gap: 10px; margin-top: 2rem; flex-wrap: wrap; }
+        .btn-action { 
+            padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; 
+            font-size: 0.9rem; border: none; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-view { background: var(--primary); color: white; }
+        .btn-download-pdf { background: var(--accent); color: var(--primary); }
+        .btn-download-video { background: #e74c3c; color: white; } /* Color distintivo para el video */
+        
+        .btn-action:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+
+        footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+    </script>
+</head>
+<body>
+
+    <nav>
+        <a href="inicio.html" class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
+        </a>
+        <div class="nav-links">
+            <a href="inicio.html">Inicio</a>
+
+            <div class="dropdown">
+                <a class="active">PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf01.html">Actividades</a>
+                    <a href="pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf02.html">Actividades</a>
+                    <a href="pf02_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a>Actividades</a>
+                    <a>Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="actividades/act08.html">SQL Injection</a>
+                </div>
+            </div>
+
+            <a href="#" class="nav-link-item">Final</a>
+            <a href="inicio.html#contacto" class="nav-link-item">Contacto</a>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
+        </div>
+    </nav>
+
+    <header class="hero-parcial">
+        <h1>Proyectos - Segundo Parcial</h1>
+        <p>Evidencias de proyectos integradores y aplicaciones prácticas del Segundo Parcial.</p>
+    </header>
+
+    <div class="section-container" id="proyectos">
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>PR02 - Parte 1: Investigación comparativa de plataformas de simulación de phishing</h2>
+                </div>
+                <div class="activity-date">Fecha: 06/Mar/2026</div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+                <p>El objetivo de este proyecto es evaluar las capacidades del factor humano como sensor activo de amenazas mediante el análisis de soluciones tecnológicas líderes. Se establecieron los siguientes requerimientos:</p>
+                <ul>
+                    <li>Identificar y analizar las métricas críticas para la evaluación del comportamiento humano ante ataques de ingeniería social.</li>
+                    <li>Realizar un estudio comparativo de las 8 plataformas más relevantes del mercado (KnowBe4, Proofpoint, Cofense, entre otras).</li>
+                    <li>Determinar los diferenciadores estratégicos y la orientación técnica de cada solución analizada.</li>
+                    <li>Establecer los fundamentos éticos y estratégicos necesarios para la implementación de un programa de concientización profesional.</li>
+                </ul>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-microchip"></i> Explicación Técnica</h3>
+                <p>La investigación se fundamenta en la transición de un modelo de cumplimiento normativo hacia uno de <strong>resiliencia operativa</strong>. El análisis técnico destaca tres pilares de medición fundamentales:</p>
+                <ol>
+                    <li><strong>Tasa de Apertura y Clic (Click Rate):</strong> Métrica de vulnerabilidad inicial que identifica la exposición del usuario.</li>
+                    <li><strong>Tasa de Reporte (Reporting Rate):</strong> Indicador de éxito más crítico que mide la proactividad del empleado al alertar sobre amenazas.</li>
+                    <li><strong>Puntuación de Riesgo (Risk Score):</strong> Cálculo predictivo que cruza el historial de comportamiento, el departamento y el nivel de acceso a datos sensibles.</li>
+                </ol>
+                <p>Finalmente, se concluye que la efectividad de un programa de seguridad humana depende de la integración de principios como el <em>"Teachable Moment"</em> (educación inmediata tras el error) y la privacidad por diseño.</p>
+            </div>
+
+            <div class="evidence-actions">
+                <a href="proyectos/pr02_1.html" class="btn-action btn-view">
+                    <i class="fa-solid fa-file-lines"></i> Leer Detalles
+                </a>
+                
+                <a href="evidencias/183636_pr02_1.pdf" download class="btn-action btn-download-pdf">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar Original
+                </a>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <p>© 2026. Todos los derechos reservados.</p>
+        <p>UPSLP | Portafolio de Proyectos - David Beltrán Reyna</p>
+    </footer>
+
+</body>
+</html>
