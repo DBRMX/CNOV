@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR02 | Simulador de Phishing</title>
+    <link rel="icon" href="icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff;
+        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--accent); position: sticky; top: 0; z-index: 1000; }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; }
+        .quiz-container { max-width: 850px; margin: 3rem auto; background: var(--white); padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .ethical-banner { background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; border-left: 5px solid #ffeeba; font-size: 0.9rem; }
+        .btn-start { background: var(--primary); color: white; padding: 12px 30px; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .email-mockup { background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; padding: 1.5rem; margin-bottom: 2rem; position: relative; }
+        .email-header { font-size: 0.85rem; line-height: 1.6; margin-bottom: 1rem; color: #666; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .btn-opt { padding: 15px; border: 2px solid var(--accent); background: white; border-radius: 8px; cursor: pointer; font-weight: 600; transition: 0.2s; color: var(--primary); }
+        .btn-opt:hover { background: var(--bg); }
+        #feedback-area { margin-top: 2rem; padding: 1.5rem; border-radius: 8px; display: none; }
+        .correct-style { background: #d4edda; color: #155724; border: 1px dashed #c3e6cb; }
+        .wrong-style { background: #f8d7da; color: #721c24; border: 1px dashed #f5c6cb; }
+        .next-btn { margin-top: 1rem; background: var(--primary); color: white; padding: 10px 25px; border: none; border-radius: 4px; cursor: pointer; float: right; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../inicio.html" class="nav-logo"><i class="fa-solid fa-shield-halved"></i> PR02 | Simulador de Phishing</a>
+        <a href="../pf02_proyectos.html" style="text-decoration:none; color:var(--primary); font-size: 0.9rem;"><i class="fa-solid fa-arrow-left"></i> Volver</a>
+    </nav>
+
+    <div class="quiz-container">
+        <div id="consent-section">
+            <h2>Simulación de Ingeniería Social</h2>
+            <div class="ethical-banner">
+                <i class="fa-solid fa-circle-info"></i> <strong>Aviso Ético:</strong> Este ejercicio es educativo. No se capturarán contraseñas reales ni datos personales. Al continuar, consientes participar en la medición de reconocimiento de amenazas.
+            </div>
+            <input type="text" id="user-alias" placeholder="Ingresa tu Alias para el Ranking" style="padding: 12px; width: 90%; margin-bottom: 1.5rem; border-radius: 8px; border: 1px solid var(--accent);">
+            <br>
+            <button class="btn-start" onclick="startQuiz()">EMPEZAR SIMULACIÓN</button>
+        </div>
+
+        <div id="quiz-active" style="display:none;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:1rem; font-weight:bold; color:var(--secondary);">
+                <span id="progress-text">Escenario 1 de 10</span>
+                <span id="timer"><i class="fa-regular fa-clock"></i> 0s</span>
+            </div>
+
+            <div class="email-mockup" id="email-display">
+                </div>
+
+            <div class="options" id="options-container">
+                <button class="btn-opt" onclick="checkAnswer('legit')">Es Legítimo</button>
+                <button class="btn-opt" onclick="checkAnswer('phishing')">Es Phishing</button>
+            </div>
+
+            <div id="feedback-area">
+                <h4 id="feedback-title" style="margin:0 0 10px 0;"></h4>
+                <p id="feedback-text" style="margin:0; font-size:0.9rem;"></p>
+                <button class="next-btn" onclick="nextQuestion()">Siguiente <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = [
+            { from: "Soporte IT <admin@empresa-segura.com>", subject: "URGENTE: Cuenta Bloqueada", body: "Detectamos actividad sospechosa. Haz clic aquí para validar: <span style='color:blue; text-decoration:underline;'>http://verificacion-cuenta.top/login</span>", type: "phishing", feedback: "Falla: El dominio '.top' es sospechoso y usa sentido de urgencia." },
+            { from: "Microsoft <no-reply@microsoft.com>", subject: "Cambio de contraseña exitoso", body: "Tu contraseña fue cambiada hoy a las 10:00 AM. Si fuiste tú, ignora este mensaje.", type: "legit", feedback: "Correcto: Es un aviso informativo estándar de un dominio oficial." },
+            { from: "RRHH <nominas@miempresa.com.mx>", subject: "Actualización de Políticas 2026", body: "Revisa los cambios en el reglamento adjunto: <span style='color:blue;'>politicas_final.exe</span>", type: "phishing", feedback: "Falla: Un archivo .exe camuflado como documento es un vector de malware común." },
+            { from: "Netflix <info@mailer.netflix.com>", subject: "Problema con tu membresía", body: "Hubo un error con tu método de pago. Actualiza tus datos aquí: <span style='color:blue;'>https://www.netflix.com/YourAccount</span>", type: "legit", feedback: "Correcto: El subdominio y el enlace apuntan al dominio oficial de Netflix." },
+            { from: "Seguridad <mfa-alert@security-codes.net>", subject: "Código de Seguridad Solicitado", body: "Alguien intentó entrar. Si no fuiste tú, cancela la petición aquí inmediatamente.", type: "phishing", feedback: "Falla: El vector de 'MFA Fatigue' usa dominios genéricos para asustar al usuario." },
+            { from: "Google Drive <notify-noreply@google.com>", subject: "Documento compartido contigo", body: "Un usuario te ha invitado a editar 'Presupuesto_2026.pdf'. Ver en: <span style='color:blue;'>https://drive.google.com/share/xyz123</span>", type: "legit", feedback: "Correcto: Los avisos de Google Drive vienen de @google.com y usan su infraestructura oficial." },
+            { from: "Servicio Postal <envios@correos-entrega.com>", subject: "Paquete retenido - Pago de aduana", body: "Tu paquete no pudo ser entregado. Paga $20 MXN para liberar: <span style='color:blue;'>http://bit.ly/pago-correos-mx</span>", type: "phishing", feedback: "Falla: Uso de acortadores (bit.ly) para ocultar el destino real en temas de pagos." },
+            { from: "Soporte Técnico <soporte@upslp.edu.mx>", subject: "Mantenimiento Programado", body: "El portal estará fuera de servicio el sábado de 2 a 4 AM. No se requiere acción de su parte.", type: "legit", feedback: "Correcto: Aviso informativo de la institución sin enlaces externos." },
+            { from: "Amazon Rewards <ganador@premios-amazon.club>", subject: "¡Felicidades! Ganaste una tarjeta de $500", body: "Haz sido seleccionado. Reclama tu premio llenando esta encuesta: <span style='color:blue;'>http://premios-amazon.club/claim</span>", type: "phishing", feedback: "Falla: Promesas de premios gratis y dominios '.club' son indicadores claros de estafa." },
+            { from: "CEO <director.ejecutivo@empresa-staff.com>", subject: "Solicitud confidencial", body: "Hola, estoy en una reunión. ¿Puedes comprar 5 tarjetas de regalo y enviarme los códigos por aquí? Es urgente.", type: "phishing", feedback: "Falla: Ataque de Whaling/CEO Fraud basado puramente en autoridad y urgencia." }
+        ];
+
+        let current = 0;
+        let results = [];
+        let startTime, timerInt;
+
+        function startQuiz() {
+            if(!document.getElementById('user-alias').value) return alert("Ingresa un alias.");
+            document.getElementById('consent-section').style.display = 'none';
+            document.getElementById('quiz-active').style.display = 'block';
+            loadScenario();
+        }
+
+        function loadScenario() {
+            const s = scenarios[current];
+            document.getElementById('progress-text').innerText = `Escenario ${current+1} de 10`;
+            document.getElementById('email-display').innerHTML = `<div class="email-header"><strong>De:</strong> ${s.from}<br><strong>Asunto:</strong> ${s.subject}</div><div>${s.body}</div>`;
+            document.getElementById('feedback-area').style.display = 'none';
+            document.getElementById('options-container').style.pointerEvents = 'auto';
+            startTime = Date.now();
+            timerInt = setInterval(() => {
+                document.getElementById('timer').innerHTML = `<i class="fa-regular fa-clock"></i> ${Math.floor((Date.now()-startTime)/1000)}s`;
+            }, 1000);
+        }
+
+        function checkAnswer(choice) {
+            clearInterval(timerInt);
+            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            const s = scenarios[current];
+            const isCorrect = choice === s.type;
+            
+            results.push({ correct: isCorrect, time: timeTaken });
+            document.getElementById('options-container').style.pointerEvents = 'none';
+            const f = document.getElementById('feedback-area');
+            f.className = isCorrect ? 'correct-style' : 'wrong-style';
+            document.getElementById('feedback-title').innerText = isCorrect ? "¡Buen trabajo!" : "Cuidado...";
+            document.getElementById('feedback-text').innerText = s.feedback;
+            f.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            current++;
+            if(current < scenarios.length) loadScenario();
+            else finish();
+        }
+
+        function finish() {
+            const alias = document.getElementById('user-alias').value;
+            const finalScore = (results.filter(r => r.correct).length / 10) * 100;
+            const payload = { alias, score: finalScore, detail: results, date: new Date().toLocaleString() };
+            
+            let allData = JSON.parse(localStorage.getItem('phishing_stats')) || [];
+            allData.push(payload);
+            localStorage.setItem('phishing_stats', JSON.stringify(allData));
+            window.location.href = "pr02_2.html";
+        }
+    </script>
+</body>
+</html>
