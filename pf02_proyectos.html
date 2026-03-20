@@ -76,7 +76,7 @@
         }
         .btn-view { background: var(--primary); color: white; }
         .btn-download-pdf { background: var(--accent); color: var(--primary); }
-        .btn-download-video { background: #e74c3c; color: white; } /* Color distintivo para el video */
+        .btn-download-video { background: #e74c3c; color: white; } 
         
         .btn-action:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
 
@@ -176,6 +176,66 @@
                 
                 <a href="evidencias/183636_pr02_1.pdf" download class="btn-action btn-download-pdf">
                     <i class="fa-solid fa-file-pdf"></i> Descargar Original
+                </a>
+            </div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>PR02 - Parte 2: Simulador interactivo de Phishing (Desarrollo)</h2>
+                </div>
+                <div class="activity-date">Fecha: 19/Mar/2026</div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+                <p>Implementación de un sistema interactivo para evaluar el reconocimiento de amenazas de ingeniería social. Los requerimientos incluyeron:</p>
+                <ul>
+                    <li>Desarrollo de 10 escenarios realistas con vectores de ataque variados (urgencia, autoridad, dominios engañosos).</li>
+                    <li>Integración de un aviso ético y consentimiento informado antes de iniciar la prueba.</li>
+                    <li>Sistema de retroalimentación inmediata que explique los indicadores de Phishing tras cada respuesta.</li>
+                </ul>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-microchip"></i> Explicación Técnica</h3>
+                <p>El simulador utiliza lógica de programación para gestionar el flujo de preguntas, cronometrar el tiempo de respuesta por escenario y calcular el porcentaje de precisión final. Los datos de desempeño se almacenan localmente para asegurar la persistencia entre sesiones y permitir el análisis comparativo posterior.</p>
+            </div>
+
+            <div class="evidence-actions">
+                <a href="proyectos/pr02_2.html" class="btn-action btn-view">
+                    <i class="fa-solid fa-play"></i> Probar Simulador
+                </a>
+            </div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>PR02 - Parte 3: Scoreboard y Análisis estadístico de vulnerabilidad</h2>
+                </div>
+                <div class="activity-date">Fecha: 19/Mar/2026</div>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
+                <p>Creación de una plataforma de visualización de datos para monitorear la resiliencia organizacional. Los objetivos clave fueron:</p>
+                <ul>
+                    <li>Diseñar un Ranking Global dinámico basado en puntuación y eficiencia de tiempo.</li>
+                    <li>Implementar tarjetas de métricas que muestren el acierto promedio y el nivel de participación.</li>
+                    <li>Identificar automáticamente el escenario más complejo basándose en el tiempo máximo observado.</li>
+                </ul>
+            </div>
+
+            <div class="info-block">
+                <h3><i class="fa-solid fa-microchip"></i> Explicación Técnica</h3>
+                <p>Se implementaron algoritmos de ordenamiento para procesar los objetos de datos del ranking. El análisis estadístico extrae el valor máximo de los tiempos de respuesta para determinar cuál vector de ataque es más efectivo en engañar al sensor humano. Este módulo permite transformar datos crudos en inteligencia accionable para programas de concientización futuros.</p>
+            </div>
+
+            <div class="evidence-actions">
+                <a href="proyectos/pr02_3.html" class="btn-action btn-view">
+                    <i class="fa-solid fa-chart-line"></i> Ver Scoreboard
                 </a>
             </div>
         </article>
