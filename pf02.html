@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PF02 | Evidencias Parcial 2</title>
+    <link rel="icon" href="icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; 
+            --secondary: #228394; 
+            --accent: #56B6C7; 
+            --light: #9DECFA; 
+            --bg: #D4F8FF; 
+            --white: #ffffff;
+        }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
+        
+        /* --- NAVEGACIÓN --- */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--white); min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
+            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { color: #555; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* --- HERO --- */
+        .hero-parcial { 
+            padding: 4rem 10%; background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white; text-align: center;
+        }
+        .hero-parcial h1 { margin: 0; font-size: 2.5rem; }
+        .hero-parcial p { opacity: 0.9; font-size: 1.1rem; margin-top: 10px; }
+
+        .section-container { padding: 4rem 10%; max-width: 1100px; margin: auto; }
+        
+        .activity-card { 
+            background: var(--white); border: 1px solid #eee; border-radius: 15px; 
+            padding: 2rem; margin-bottom: 3rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--accent);
+        }
+
+        .activity-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .activity-title h2 { margin: 0; color: var(--primary); font-size: 1.4rem; }
+        .activity-date { font-size: 0.8rem; color: #777; font-weight: bold; background: var(--bg); padding: 5px 12px; border-radius: 20px; }
+
+        .info-block { margin-bottom: 1.5rem; }
+        .info-block h3 { font-size: 0.95rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        .info-block p { margin: 0; line-height: 1.6; text-align: justify; font-size: 0.95rem; }
+
+        .evidence-actions { display: flex; gap: 10px; margin-top: 2rem; }
+        .btn-action { 
+            padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; 
+            font-size: 0.85rem; border: none; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-view { background: var(--primary); color: white; }
+        .btn-download { background: var(--accent); color: var(--primary); }
+        .btn-action:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        .pdf-viewer { display: none; margin-top: 20px; width: 100%; height: 600px; border: 2px solid var(--bg); border-radius: 10px; overflow: hidden; }
+        .pdf-viewer iframe { width: 100%; height: 100%; border: none; }
+
+        footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
+    </style>
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+        function togglePDF(id) {
+            const viewer = document.getElementById('viewer-' + id);
+            viewer.style.display = (viewer.style.display === "none" || viewer.style.display === "") ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+
+    <nav>
+        <a href="inicio.html" class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
+        </a>
+        <div class="nav-links">
+            <a href="inicio.html">Inicio</a>
+            <div class="dropdown">
+                <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf01.html">Actividades</a>
+                    <a href="pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a class="active">PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf02.html">Actividades</a>
+                    <a href="pf02_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="actividades/act08.html">SQL Injection</a>
+                </div>
+            </div>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
+        </div>
+    </nav>
+
+    <header class="hero-parcial">
+        <h1>Segundo Parcial</h1>
+        <p>Compendio de actividades y evidencias desarrolladas durante el Segundo Parcial.</p>
+    </header>
+
+    <div class="section-container">
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>Actividad 08: Road to Hall of Fame (SQL Injection)</h2>
+                </div>
+                <div class="activity-date">Marzo 2026</div>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
+                <p>Explotar vulnerabilidades SQLi In-band en entornos controlados de PortSwigger. Se requiere extraer información de bases de datos mediante ataques UNION, identificar versiones de sistemas (Oracle/MySQL) y realizar bypass de pantallas de login administrativo.</p>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
+                <p>Se implementaron ataques <code>UNION SELECT</code> para combinar resultados de tablas legítimas con datos sensibles. El proceso incluyó la determinación del número de columnas mediante valores <code>NULL</code> y la identificación de tipos de datos compatibles para exfiltrar nombres de usuario y contraseñas de la tabla <code>users</code>.</p>
+            </div>
+            <div class="evidence-actions">
+                <a href="actividades/act08.html" class="btn-action btn-view"><i class="fa-solid fa-file-lines"></i> Leer Actividad</a>
+                <a href="evidencias/act08-Equipo1.pdf" download class="btn-action btn-download"><i class="fa-solid fa-download"></i> Descargar Original</a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(8)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+            </div>
+            <div id="viewer-8" class="pdf-viewer"><iframe src="evidencias/act08-Equipo1.pdf"></iframe></div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>Actividad 09: Blind SQL Injection (Ataques Inferenciales)</h2>
+                </div>
+                <div class="activity-date">Marzo 2026</div>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
+                <p>Recuperar información de bases de datos donde la aplicación no devuelve resultados directos. Se deben utilizar técnicas de respuestas condicionales, errores forzados y retardos de tiempo (Time delays) para reconstruir contraseñas carácter por carácter.</p>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
+                <p>Se utilizaron funciones como <code>pg_sleep()</code> en PostgreSQL para confirmar vulnerabilidades mediante el tiempo de respuesta. Para la extracción de datos, se inyectaron condiciones booleanas que permitieron inferir la contraseña del administrador basándose en la presencia o ausencia de contenido específico en la interfaz web.</p>
+            </div>
+            <div class="evidence-actions">
+                <a href="actividades/act09.html" class="btn-action btn-view"><i class="fa-solid fa-file-lines"></i> Leer Actividad</a>
+                <a href="evidencias/act09-Equipo1.pdf" download class="btn-action btn-download"><i class="fa-solid fa-download"></i> Descargar Original</a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(9)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+            </div>
+            <div id="viewer-9" class="pdf-viewer"><iframe src="evidencias/act09-Equipo1.pdf"></iframe></div>
+        </article>
+
+        <article class="activity-card">
+            <div class="activity-header">
+                <div class="activity-title">
+                    <h2>Actividad 10: Evasión de Filtros y Vulnerabilidades XML</h2>
+                </div>
+                <div class="activity-date">Marzo 2026</div>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
+                <p>Bypass de Web Application Firewalls (WAF) que bloquean palabras clave de SQL. Utilizar técnicas de codificación XML y ataques fuera de banda (Out-of-band) para exfiltrar datos cuando los canales convencionales están protegidos.</p>
+            </div>
+            <div class="info-block">
+                <h3><i class="fa-solid fa-gears"></i> Explicación Técnica</h3>
+                <p>Se empleó la codificación de entidades hexadecimales en etiquetas XML para evadir filtros de texto plano. Asimismo, se utilizó Burp Collaborator para capturar interacciones DNS/HTTP iniciadas por el servidor de la base de datos, permitiendo la exfiltración masiva de credenciales mediante canales externos.</p>
+            </div>
+            <div class="evidence-actions">
+                <a href="actividades/act10.html" class="btn-action btn-view"><i class="fa-solid fa-file-lines"></i> Leer Actividad</a>
+                <a href="evidencias/act10-Equipo1.pdf" download class="btn-action btn-download"><i class="fa-solid fa-download"></i> Descargar Original</a>
+                <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(10)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+            </div>
+            <div id="viewer-10" class="pdf-viewer"><iframe src="evidencias/act10-Equipo1.pdf"></iframe></div>
+        </article>
+
+    </div>
+
+    <footer>
+        <p>© 2026 David Beltrán Reyna | Portafolio de Seguridad Informática</p>
+        <p>Universidad Politécnica de San Luis Potosí</p>
+    </footer>
+
+</body>
+</html>
