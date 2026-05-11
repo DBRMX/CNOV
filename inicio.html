@@ -29,7 +29,6 @@
         
         .nav-links { display: flex; align-items: center; }
 
-        /* Links base */
         .nav-links a { 
             text-decoration: none; 
             color: #555; 
@@ -40,18 +39,16 @@
 
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        /* Contenedor del Dropdown */
         .dropdown { 
             position: relative; 
             display: inline-block; 
             margin-left: 1.5rem; 
         }
 
-        .dropdown > a { cursor: pointer; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-        /* Lista desplegable */
         .dropdown-content {
-            display: none;
+            display: none; /* Oculto por defecto */
             position: absolute;
             background-color: var(--white);
             min-width: 160px;
@@ -65,10 +62,11 @@
             overflow: hidden;
         }
 
-        /* Mostrar al pasar el cursor */
-        .dropdown:hover .dropdown-content { display: block; }
+        /* --- CLASE PARA MOSTRAR EL MENÚ (Usada por JS) --- */
+        .dropdown-content.show {
+            display: block;
+        }
 
-        /* Elementos dentro del dropdown */
         .dropdown-content a {
             color: #555;
             padding: 12px 16px;
@@ -84,10 +82,9 @@
         .dropdown-content a:hover {
             background-color: var(--bg);
             color: var(--primary);
-            padding-left: 20px; /* Efecto sutil de desplazamiento */
+            padding-left: 20px;
         }
 
-        /* Ajuste para los links que no son dropdown */
         .nav-link-item { margin-left: 1.5rem; }
 
         /* --- RESTO DE ESTILOS (HERO, SECCIONES, ETC) --- */
@@ -137,7 +134,7 @@
         }
         .ssl-badge i { color: #4CAF50; }
     </style>
-    <script>
+     <script>
         if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
     </script>
 </head>
@@ -169,8 +166,8 @@
             <div class="dropdown">
                 <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
-                    <a href="#">Actividades</a>
-                    <a href="#">Proyectos</a>
+                    <a href="pf03.html">Actividades</a>
+                    <a href="pf03_proyectos.html">Proyectos</a>
                 </div>
             </div>
 
@@ -280,6 +277,43 @@
             <span>SITIO PROTEGIDO CON CERTIFICADO SSL / TLS (HTTPS)</span>
         </div>
     </footer>
+
+    <script>
+        // Verificación de sesión
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+
+        // Manejo de Dropdowns por Click
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault(); // Evita la navegación si el link es #
+                    e.stopPropagation(); // Evita que el clic se propague al documento
+
+                    // Cerrar otros dropdowns abiertos antes de abrir el actual
+                    document.querySelectorAll('.dropdown-content').forEach(otherContent => {
+                        if (otherContent !== content) {
+                            otherContent.classList.remove('show');
+                        }
+                    });
+
+                    // Alternar el menú actual
+                    content.classList.toggle('show');
+                });
+            });
+
+            // Cerrar el menú si se hace clic en cualquier otra parte de la página
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>
