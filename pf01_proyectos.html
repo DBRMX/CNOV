@@ -30,13 +30,24 @@
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
         .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
-        .dropdown > a { cursor: pointer; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .dropdown-content {
-            display: none; position: absolute; background-color: var(--white); min-width: 160px;
-            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
-            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+            display: none;
+            position: absolute;
+            background-color: var(--white);
+            min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1);
+            z-index: 1001;
+            border-radius: 8px;
+            border: 1px solid var(--bg);
+            top: 100%;
+            left: 0;
+            margin-top: 10px;
+            overflow: hidden;
         }
-        .dropdown:hover .dropdown-content { display: block; }
+
+        .dropdown-content.show { display: block; }
+
         .dropdown-content a {
             color: #555; padding: 12px 16px; text-decoration: none; display: block;
             font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s;
@@ -76,18 +87,17 @@
         }
         .btn-view { background: var(--primary); color: white; }
         .btn-download-pdf { background: var(--accent); color: var(--primary); }
-        .btn-download-video { background: #e74c3c; color: white; } /* Color distintivo para el video */
+        .btn-download-video { background: #e74c3c; color: white; } 
         
         .btn-action:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
 
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
     </style>
-    <script>
+     <script>
         if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
     </script>
 </head>
 <body>
-
     <nav>
         <a href="inicio.html" class="nav-logo">
             <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
@@ -114,8 +124,8 @@
             <div class="dropdown">
                 <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
-                    <a>Actividades</a>
-                    <a>Proyectos</a>
+                    <a href="pf03.html">Actividades</a>
+                    <a href="pf03_proyectos.html">Proyectos</a>
                 </div>
             </div>
 
@@ -144,7 +154,7 @@
                 <div class="activity-title">
                     <h2>PR01: De la teoría a la práctica - walkthrough en acción</h2>
                 </div>
-                <div class="activity-date">Fecha: 20/Feb/2026</div>
+                <div class="activity-date">Fecha: 20/02/2026</div>
             </div>
 
             <div class="info-block">
@@ -189,6 +199,36 @@
         <p>UPSLP | Portafolio de Proyectos - David Beltrán Reyna</p>
     </footer>
 
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+
+        // Manejo de Dropdowns por Click
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    document.querySelectorAll('.dropdown-content').forEach(otherContent => {
+                        if (otherContent !== content) {
+                            otherContent.classList.remove('show');
+                        }
+                    });
+
+                    content.classList.toggle('show');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
-
