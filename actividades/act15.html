@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 15 | Social Engineer Toolkit Report</title>
+    <link rel="icon" href="../icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; --secondary: #228394; --accent: #56B6C7; 
+            --bg: #D4F8FF; --white: #ffffff; --danger: #e74c3c;
+        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--white); color: #333; line-height: 1.6; }
+        
+        /* Navegación */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--white); min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
+            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown-content.show { display: block; }
+        .dropdown-content a { color: #555; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* Contenedor Reporte */
+        .report-container { max-width: 1000px; margin: 3rem auto; padding: 0 2rem; }
+        .report-header { border-bottom: 4px solid var(--primary); padding-bottom: 2rem; margin-bottom: 3rem; }
+        .report-header h1 { color: var(--primary); margin: 0; font-size: 1.8rem; text-transform: uppercase; }
+        .badge-warning { background: #f39c12; color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
+
+        section { margin-bottom: 4rem; }
+        h3 { color: var(--primary); border-left: 5px solid var(--accent); padding-left: 15px; margin-bottom: 1.5rem; text-transform: uppercase; font-size: 1.2rem; }
+        
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .info-card { background: var(--bg); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--accent); }
+        .info-card h4 { margin-top: 0; color: var(--primary); }
+
+        .step-box { position: relative; padding-left: 50px; margin-bottom: 2.5rem; }
+        .step-num { position: absolute; left: 0; top: 0; width: 35px; height: 35px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .step-content { background: #f9f9f9; padding: 1.5rem; border-radius: 8px; border: 1px solid #eee; }
+        .code-block { background: #1e1e1e; color: #dcdcdc; padding: 1.2rem; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 0.85rem; margin: 10px 0; overflow-x: auto; }
+
+        /* Bloque Descarga */
+        .download-footer { 
+            margin: 4rem 0; padding: 2.5rem; background: var(--bg); border-radius: 15px; 
+            text-align: center; border: 2px dashed var(--primary); 
+        }
+        .btn-download { 
+            display: inline-flex; align-items: center; gap: 10px; background: var(--primary); 
+            color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s;
+        }
+        .btn-download:hover { background: var(--secondary); transform: translateY(-3px); }
+
+        footer { background: #012a31; color: white; padding: 2rem; text-align: center; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="../inicio.html" class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
+        </a>
+        <div class="nav-links">
+            <a href="../inicio.html">Inicio</a>
+            <div class="dropdown">
+                <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../pf01.html">Actividades</a>
+                    <a href="../pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../pf02.html">Actividades</a>
+                    <a href="../pf02_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a class="active">PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../pf03.html">Actividades</a>
+                    <a href="../pf03_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="../sql_injection.html">SQL Injection</a>
+                </div>
+            </div>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='../index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
+        </div>
+    </nav>
+
+    <main class="report-container">
+        <header class="report-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h1>Spear Phishing Simulation: Social Engineer Toolkit</h1>
+                    <span style="color: var(--secondary); font-weight: bold;">Auditoría de Ingeniería Social - Actividad 15</span>
+                </div>
+                <span class="badge-warning">Riesgo Alto</span>
+            </div>
+        </header>
+
+        <section id="resumen">
+            <h3><i class="fa-solid fa-file-contract"></i> Executive Summary</h3>
+            <p>Este documento detalla la ejecución de una simulación de ataque de ingeniería social realizada en un entorno controlado[cite: 714]. El objetivo principal fue evaluar la efectividad de las defensas perimetrales y la capacidad de respuesta del usuario ante técnicas de suplantación de identidad (Phishing)[cite: 715]. Se logró la infiltración exitosa mediante un servidor SMTP configurado localmente y el despliegue de una página de captura de credenciales[cite: 716].</p>
+        </section>
+
+        <section id="infraestructura">
+            <h3><i class="fa-solid fa-server"></i> Infraestructura Técnica</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Servidor de Correo (MTA)</h4>
+                    <p>Uso de <strong>Postfix</strong> instalado en Linux para la gestión y retransmisión de paquetes SMTP[cite: 725].</p>
+                </div>
+                <div class="info-card">
+                    <h4>Módulo de Explotación</h4>
+                    <p><strong>Social Engineer Toolkit (SET)</strong> configurado para ejecutar campañas de Mass Mailer con plantillas HTML[cite: 725].</p>
+                </div>
+                <div class="info-card">
+                    <h4>Canal de Salida</h4>
+                    <p>Relay configurado con <strong>Google SMTP</strong> (puerto 587) utilizando App Passwords para evadir bloqueos de seguridad[cite: 725, 729].</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="walkthrough">
+            <h3><i class="fa-solid fa-terminal"></i> Walkthrough del Ataque</h3>
+
+            <div class="step-box">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <h4>Configuración del Relay SMTP</h4>
+                    <p>Se modificó el archivo <code>/etc/postfix/main.cf</code> para activar la autenticación SASL y el uso de TLS[cite: 759].</p>
+                    <div class="code-block">relayhost = [smtp.gmail.com]:587<br>smtp_sasl_auth_enable = yes<br>smtp_use_tls = yes</div>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <h4>Gestión de Credenciales en SET</h4>
+                    <p>Dentro de SET, se seleccionó el vector <strong>Mass Mailer Attack</strong> y se optó por crear una plantilla personalizada (One-Time Use Email Template)[cite: 867, 880]. Se configuró un asunto persuasivo para incentivar el clic del usuario[cite: 886].</p>
+                </div>
+            </div>
+
+            <div class="step-box">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <h4>Ejecución y Resultados</h4>
+                    <p>Tras la inyección del correo en el servidor de retransmisión, el sistema notificó el envío exitoso[cite: 913]. Al hacer clic en el enlace, el usuario fue dirigido a una página de inicio de sesión falsificada diseñada para recolectar sus datos institucionales[cite: 937].</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="riesgos">
+            <h3><i class="fa-solid fa-shield-virus"></i> Análisis de Riesgos (Modelo CIA)</h3>
+            <div class="info-grid">
+                <div class="info-card" style="border-top: 4px solid var(--danger);">
+                    <h4>Confidencialidad (Alta)</h4>
+                    <p>Compromiso total de cuentas institucionales, permitiendo el acceso no autorizado a información privada y bases de datos[cite: 955].</p>
+                </div>
+                <div class="info-card" style="border-top: 4px solid #f1c40f;">
+                    <h4>Integridad (Media)</h4>
+                    <p>Posibilidad de realizar ataques Man-in-the-Middle o alterar registros financieros tras el acceso inicial[cite: 956].</p>
+                </div>
+            </div>
+            <p style="margin-top: 20px;"><strong>Vulnerabilidad Crítica:</strong> La ausencia de registros <strong>SPF, DKIM y DMARC</strong> permitió que el servidor Postfix suplantara identidades sin ser bloqueado por filtros de origen[cite: 950].</p>
+        </section>
+
+        <section class="download-footer">
+            <h3><i class="fa-solid fa-file-pdf"></i> Evidencia Técnica Original</h3>
+            <p>Descarga el reporte completo de la simulación con SET y la configuración detallada de Postfix.</p>
+            <a href="../evidencias/act15-Equipo1.pdf" download class="btn-download">
+                <i class="fa-solid fa-download"></i> ACTIVIDAD 15
+            </a>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>© 2026 David Beltrán Reyna | Ingeniería en TI | UPSLP</p>
+        <p>Simulación de Ataques con Social Engineer Toolkit - Actividad 15</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.querySelectorAll('.dropdown-content').forEach(other => {
+                        if (other !== content) other.classList.remove('show');
+                    });
+                    content.classList.toggle('show');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
