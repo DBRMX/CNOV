@@ -18,7 +18,7 @@
         
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
         
-        /* --- NAVEGACIÓN Y DROPDOWNS (ACTUALIZADO) --- */
+        /* --- NAVEGACIÓN Y DROPDOWNS --- */
         nav { 
             display: flex; justify-content: space-between; align-items: center;
             padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
@@ -26,26 +26,12 @@
         }
 
         .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
-        
         .nav-links { display: flex; align-items: center; }
-
-        .nav-links a { 
-            text-decoration: none; 
-            color: #555; 
-            font-weight: 600; 
-            transition: 0.3s; 
-            font-size: 0.9rem; 
-        }
-
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
-        .dropdown { 
-            position: relative; 
-            display: inline-block; 
-            margin-left: 1.5rem; 
-        }
-
-        .dropdown > a { cursor: pointer; }
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
         .dropdown-content {
             display: none;
@@ -62,7 +48,8 @@
             overflow: hidden;
         }
 
-        .dropdown:hover .dropdown-content { display: block; }
+        /* Clase para mostrar el menú (Activada por JS) */
+        .dropdown-content.show { display: block; }
 
         .dropdown-content a {
             color: #555;
@@ -75,13 +62,7 @@
         }
 
         .dropdown-content a:last-child { border-bottom: none; }
-
-        .dropdown-content a:hover {
-            background-color: var(--bg);
-            color: var(--primary);
-            padding-left: 20px;
-        }
-
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
         .nav-link-item { margin-left: 1.5rem; }
 
         /* --- ESTILOS DE CONTENIDO --- */
@@ -122,19 +103,8 @@
 
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
     </style>
-    <script>
-        /* Guardian de Sesión */
+     <script>
         if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
-
-        /* Función para alternar visor de PDF */
-        function togglePDF(id) {
-            const viewer = document.getElementById('viewer-' + id);
-            if (viewer.style.display === "none" || viewer.style.display === "") {
-                viewer.style.display = "block";
-            } else {
-                viewer.style.display = "none";
-            }
-        }
     </script>
 </head>
 <body>
@@ -165,8 +135,8 @@
             <div class="dropdown">
                 <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
-                    <a href="#">Actividades</a>
-                    <a href="#">Proyectos</a>
+                    <a href="pf03.html">Actividades</a>
+                    <a href="pf03_proyectos.html">Proyectos</a>
                 </div>
             </div>
 
@@ -195,7 +165,7 @@
                 <div class="activity-title">
                     <h2>Actividad 01: Análisis de un ciberataque real y su impacto empresarial</h2>
                 </div>
-                <div class="activity-date">Realizada: 30/Ene/2026</div>
+                <div class="activity-date">Fecha: 30/01/2026</div>
             </div>
 
             <div class="info-block">
@@ -230,7 +200,7 @@
                 <div class="activity-title">
                     <h2>Actividad 02: Análisis de servicios de seguridad (ITU-T X.800 & RFC 4949)</h2>
                 </div>
-                <div class="activity-date">Realizada: 27/Ene/2026</div>
+                <div class="activity-date">Fecha: 27/01/2026</div>
             </div>
 
             <div class="info-block">
@@ -265,7 +235,7 @@
                 <div class="activity-title">
                     <h2>Actividad 03: Interpretación y traducción de políticas de filtrado en iptables</h2>
                 </div>
-                <div class="activity-date">Realizada: 03/Feb/2026</div>
+                <div class="activity-date">Fecha: 03/02/2026</div>
             </div>
 
             <div class="info-block">
@@ -300,7 +270,7 @@
                 <div class="activity-title">
                     <h2>Actividad 04: Mecanismos de defensa en red (Configuración Avanzada)</h2>
                 </div>
-                <div class="activity-date">Realizada: 04/Feb/2026</div>
+                <div class="activity-date">Fecha: 04/02/2026</div>
             </div>
 
             <div class="info-block">
@@ -335,7 +305,7 @@
                 <div class="activity-title">
                     <h2>Actividad 05: Cartografiando el pentesting</h2>
                 </div>
-                <div class="activity-date">15/Feb/2026</div>
+                <div class="activity-date">Fecha: 15/02/2026</div>
             </div>
 
             <div class="info-block">
@@ -370,7 +340,7 @@
                 <div class="activity-title">
                     <h2>Actividad 06: Implementación del protocolo IPSec VPN</h2>
                 </div>
-                <div class="activity-date">15/Feb/2026</div>
+                <div class="activity-date">Fecha: 15/02/2026</div>
             </div>
 
             <div class="info-block">
@@ -407,5 +377,45 @@
         <p>UPSLP | David Beltrán Reyna - 183636</p>
     </footer>
 
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+
+        function togglePDF(id) {
+            const viewer = document.getElementById('viewer-' + id);
+            if (viewer.style.display === "none" || viewer.style.display === "") {
+                viewer.style.display = "block";
+            } else {
+                viewer.style.display = "none";
+            }
+        }
+
+        // Manejo de Dropdowns por Click
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    document.querySelectorAll('.dropdown-content').forEach(otherContent => {
+                        if (otherContent !== content) {
+                            otherContent.classList.remove('show');
+                        }
+                    });
+
+                    content.classList.toggle('show');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
