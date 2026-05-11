@@ -120,7 +120,7 @@
 
         <section id="resumen">
             <h3><i class="fa-solid fa-file-contract"></i> Executive Summary</h3>
-            <p>Este documento detalla la ejecución de una simulación de ataque de ingeniería social realizada en un entorno controlado[cite: 714]. El objetivo principal fue evaluar la efectividad de las defensas perimetrales y la capacidad de respuesta del usuario ante técnicas de suplantación de identidad (Phishing)[cite: 715]. Se logró la infiltración exitosa mediante un servidor SMTP configurado localmente y el despliegue de una página de captura de credenciales[cite: 716].</p>
+            <p>Este documento detalla la ejecución de una simulación de ataque de ingeniería social realizada en un entorno controlado. El objetivo principal fue evaluar la efectividad de las defensas perimetrales y la capacidad de respuesta del usuario ante técnicas de suplantación de identidad (Phishing). Se logró la infiltración exitosa mediante un servidor SMTP configurado localmente y el despliegue de una página de captura de credenciales.</p>
         </section>
 
         <section id="infraestructura">
@@ -128,15 +128,15 @@
             <div class="info-grid">
                 <div class="info-card">
                     <h4>Servidor de Correo (MTA)</h4>
-                    <p>Uso de <strong>Postfix</strong> instalado en Linux para la gestión y retransmisión de paquetes SMTP[cite: 725].</p>
+                    <p>Uso de <strong>Postfix</strong> instalado en Linux para la gestión y retransmisión de paquetes SMTP.</p>
                 </div>
                 <div class="info-card">
                     <h4>Módulo de Explotación</h4>
-                    <p><strong>Social Engineer Toolkit (SET)</strong> configurado para ejecutar campañas de Mass Mailer con plantillas HTML[cite: 725].</p>
+                    <p><strong>Social Engineer Toolkit (SET)</strong> configurado para ejecutar campañas de Mass Mailer con plantillas HTML.</p>
                 </div>
                 <div class="info-card">
                     <h4>Canal de Salida</h4>
-                    <p>Relay configurado con <strong>Google SMTP</strong> (puerto 587) utilizando App Passwords para evadir bloqueos de seguridad[cite: 725, 729].</p>
+                    <p>Relay configurado con <strong>Google SMTP</strong> (puerto 587) utilizando App Passwords para evadir bloqueos de seguridad.</p>
                 </div>
             </div>
         </section>
@@ -148,7 +148,7 @@
                 <div class="step-num">1</div>
                 <div class="step-content">
                     <h4>Configuración del Relay SMTP</h4>
-                    <p>Se modificó el archivo <code>/etc/postfix/main.cf</code> para activar la autenticación SASL y el uso de TLS[cite: 759].</p>
+                    <p>Se modificó el archivo <code>/etc/postfix/main.cf</code> para activar la autenticación SASL y el uso de TLS.</p>
                     <div class="code-block">relayhost = [smtp.gmail.com]:587<br>smtp_sasl_auth_enable = yes<br>smtp_use_tls = yes</div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
                 <div class="step-num">2</div>
                 <div class="step-content">
                     <h4>Gestión de Credenciales en SET</h4>
-                    <p>Dentro de SET, se seleccionó el vector <strong>Mass Mailer Attack</strong> y se optó por crear una plantilla personalizada (One-Time Use Email Template)[cite: 867, 880]. Se configuró un asunto persuasivo para incentivar el clic del usuario[cite: 886].</p>
+                    <p>Dentro de SET, se seleccionó el vector <strong>Mass Mailer Attack</strong> y se optó por crear una plantilla personalizada (One-Time Use Email Template). Se configuró un asunto persuasivo para incentivar el clic del usuario.</p>
                 </div>
             </div>
 
@@ -165,7 +165,7 @@
                 <div class="step-num">3</div>
                 <div class="step-content">
                     <h4>Ejecución y Resultados</h4>
-                    <p>Tras la inyección del correo en el servidor de retransmisión, el sistema notificó el envío exitoso[cite: 913]. Al hacer clic en el enlace, el usuario fue dirigido a una página de inicio de sesión falsificada diseñada para recolectar sus datos institucionales[cite: 937].</p>
+                    <p>Tras la inyección del correo en el servidor de retransmisión, el sistema notificó el envío exitoso. Al hacer clic en el enlace, el usuario fue dirigido a una página de inicio de sesión falsificada diseñada para recolectar sus datos institucionales.</p>
                 </div>
             </div>
         </section>
@@ -175,14 +175,14 @@
             <div class="info-grid">
                 <div class="info-card" style="border-top: 4px solid var(--danger);">
                     <h4>Confidencialidad (Alta)</h4>
-                    <p>Compromiso total de cuentas institucionales, permitiendo el acceso no autorizado a información privada y bases de datos[cite: 955].</p>
+                    <p>Compromiso total de cuentas institucionales, permitiendo el acceso no autorizado a información privada y bases de datos.</p>
                 </div>
                 <div class="info-card" style="border-top: 4px solid #f1c40f;">
                     <h4>Integridad (Media)</h4>
-                    <p>Posibilidad de realizar ataques Man-in-the-Middle o alterar registros financieros tras el acceso inicial[cite: 956].</p>
+                    <p>Posibilidad de realizar ataques Man-in-the-Middle o alterar registros financieros tras el acceso inicial.</p>
                 </div>
             </div>
-            <p style="margin-top: 20px;"><strong>Vulnerabilidad Crítica:</strong> La ausencia de registros <strong>SPF, DKIM y DMARC</strong> permitió que el servidor Postfix suplantara identidades sin ser bloqueado por filtros de origen[cite: 950].</p>
+            <p style="margin-top: 20px;"><strong>Vulnerabilidad Crítica:</strong> La ausencia de registros <strong>SPF, DKIM y DMARC</strong> permitió que el servidor Postfix suplantara identidades sin ser bloqueado por filtros de origen.</p>
         </section>
 
         <section class="download-footer">
