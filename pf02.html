@@ -30,12 +30,13 @@
         .nav-links a:hover, .nav-links a.active { color: var(--primary); }
 
         .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .dropdown-content {
             display: none; position: absolute; background-color: var(--white); min-width: 160px;
             box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
             border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
         }
-        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content.show { display: block; }
         .dropdown-content a { color: #555; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s; }
         .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
         .nav-link-item { margin-left: 1.5rem; }
@@ -78,22 +79,19 @@
 
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
     </style>
-    <script>
+     <script>
         if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
-        function togglePDF(id) {
-            const viewer = document.getElementById('viewer-' + id);
-            viewer.style.display = (viewer.style.display === "none" || viewer.style.display === "") ? "block" : "none";
-        }
     </script>
 </head>
 <body>
 
     <nav>
-        <a href="inicio.html" class="nav-logo">
+        <a href="#" class="nav-logo">
             <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
         </a>
         <div class="nav-links">
-            <a href="inicio.html">Inicio</a>
+            <a href="inicio.html" class="active">Inicio</a>
+
             <div class="dropdown">
                 <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
@@ -101,19 +99,32 @@
                     <a href="pf01_proyectos.html">Proyectos</a>
                 </div>
             </div>
+
             <div class="dropdown">
-                <a class="active">PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
                     <a href="pf02.html">Actividades</a>
                     <a href="pf02_proyectos.html">Proyectos</a>
                 </div>
             </div>
+
+            <div class="dropdown">
+                <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf03.html">Actividades</a>
+                    <a href="pf03_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
             <div class="dropdown">
                 <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
                 <div class="dropdown-content">
                     <a href="actividades/act08.html">SQL Injection</a>
                 </div>
             </div>
+
+            <a href="#" class="nav-link-item">Final</a>
+            <a href="#contacto" class="nav-link-item">Contacto</a>
             <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
         </div>
     </nav>
@@ -130,7 +141,7 @@
                 <div class="activity-title">
                     <h2>Actividad 08: Road to Hall of Fame (SQL Injection)</h2>
                 </div>
-                <div class="activity-date">Marzo 2026</div>
+                <div class="activity-date">Fecha: 06/03/2026</div>
             </div>
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
@@ -153,7 +164,7 @@
                 <div class="activity-title">
                     <h2>Actividad 09: Blind SQL Injection (Ataques Inferenciales)</h2>
                 </div>
-                <div class="activity-date">Marzo 2026</div>
+                <div class="activity-date">Fecha: 10/03/2026</div>
             </div>
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
@@ -176,7 +187,7 @@
                 <div class="activity-title">
                     <h2>Actividad 10: Evasión de Filtros y Vulnerabilidades XML</h2>
                 </div>
-                <div class="activity-date">Marzo 2026</div>
+                <div class="activity-date">Fecha: 09/03/2026</div>
             </div>
             <div class="info-block">
                 <h3><i class="fa-solid fa-list-check"></i> Indicaciones</h3>
@@ -201,5 +212,29 @@
         <p>Universidad Politécnica de San Luis Potosí</p>
     </footer>
 
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+        
+        function togglePDF(id) {
+            const viewer = document.getElementById('viewer-' + id);
+            viewer.style.display = (viewer.style.display === "none" || viewer.style.display === "") ? "block" : "none";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    document.querySelectorAll('.dropdown-content').forEach(c => { if(c!==content) c.classList.remove('show'); });
+                    content.classList.toggle('show');
+                });
+            });
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(c => c.classList.remove('show'));
+            });
+        });
+    </script>
 </body>
 </html>
