@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificaciones | Portafolio de Seguridad Informática</title>
+    <link rel="icon" href="icono.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { 
+            --primary: #035361; 
+            --secondary: #228394; 
+            --accent: #56B6C7; 
+            --bg: #D4F8FF; 
+            --white: #ffffff;
+            --credly: #ff6b00; /* Color característico de credly */
+        }
+        
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background-color: var(--white); color: #333; scroll-behavior: smooth; }
+        
+        /* --- NAVEGACIÓN (CON LÓGICA DE CLIC) --- */
+        nav { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 8%; background: var(--white); border-bottom: 2px solid var(--bg);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-logo { font-weight: 800; color: var(--primary); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a { text-decoration: none; color: #555; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+
+        .dropdown { position: relative; display: inline-block; margin-left: 1.5rem; }
+        .dropdown > a { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: var(--white); min-width: 160px;
+            box-shadow: 0 8px 16px rgba(3,83,97,0.1); z-index: 1001; border-radius: 8px;
+            border: 1px solid var(--bg); top: 100%; left: 0; margin-top: 10px; overflow: hidden;
+        }
+        .dropdown-content.show { display: block; }
+        .dropdown-content a { color: #555; padding: 12px 16px; text-decoration: none; display: block; font-size: 0.85rem; border-bottom: 1px solid var(--bg); transition: 0.2s; }
+        .dropdown-content a:hover { background-color: var(--bg); color: var(--primary); padding-left: 20px; }
+        .nav-link-item { margin-left: 1.5rem; }
+
+        /* --- HERO --- */
+        .hero-parcial { 
+            padding: 5rem 10%; background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white; text-align: center;
+        }
+        .hero-parcial h1 { margin: 0; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
+        .hero-parcial p { opacity: 0.9; font-size: 1.1rem; margin-top: 15px; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        .section-container { padding: 4rem 10%; max-width: 1200px; margin: auto; }
+        
+        /* --- TARJETAS DE CERTIFICACIÓN --- */
+        .cert-card { 
+            background: var(--white); border: 1px solid #eee; border-radius: 15px; 
+            padding: 2.5rem; margin-bottom: 3rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-left: 8px solid var(--accent); display: flex; gap: 30px; align-items: flex-start;
+            transition: 0.3s;
+        }
+        .cert-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(3,83,97,0.1); border-left-color: var(--primary); }
+
+        /* Columna Izquierda (Badge) */
+        .cert-badge-col { flex: 0 0 200px; text-align: center; }
+        .cert-badge-col img { width: 100%; max-width: 180px; height: auto; border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 1.5rem; }
+        
+        /* Columna Derecha (Info) */
+        .cert-info-col { flex: 1; }
+        .cert-title { margin: 0 0 5px 0; color: var(--primary); font-size: 1.6rem; }
+        .cert-issuer { font-size: 0.9rem; color: #777; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; display: block; }
+        
+        .reflection-block { background: var(--bg); padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; }
+        .reflection-block h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: var(--secondary); display: flex; align-items: center; gap: 8px; }
+        .reflection-block p { margin: 0; line-height: 1.7; font-size: 0.95rem; text-align: justify; color: #444; }
+
+        /* Botones */
+        .evidence-actions { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-action { 
+            padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; 
+            font-size: 0.9rem; border: none; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .btn-credly { background: var(--credly); color: white; }
+        .btn-credly:hover { background: #e65c00; transform: translateY(-2px); }
+        .btn-pdf { background: var(--primary); color: white; }
+        .btn-pdf:hover { background: var(--secondary); transform: translateY(-2px); }
+        .btn-preview { background: #eee; color: #333; }
+        .btn-preview:hover { background: #ddd; transform: translateY(-2px); }
+
+        .pdf-viewer { display: none; margin-top: 20px; width: 100%; height: 600px; border: 2px solid var(--bg); border-radius: 10px; overflow: hidden; }
+        .pdf-viewer iframe { width: 100%; height: 100%; border: none; }
+
+        @media (max-width: 768px) {
+            .cert-card { flex-direction: column; align-items: center; text-align: center; }
+            .reflection-block p { text-align: left; }
+            .evidence-actions { justify-content: center; }
+        }
+
+        footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="inicio.html" class="nav-logo">
+            <i class="fa-solid fa-user-shield"></i> CNO V: SEGURIDAD INFORMÁTICA
+        </a>
+        <div class="nav-links">
+            <a href="inicio.html">Inicio</a>
+
+            <div class="dropdown">
+                <a>PF01 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf01.html">Actividades</a>
+                    <a href="pf01_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF02 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf02.html">Actividades</a>
+                    <a href="pf02_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a>PF03 <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="pf03.html">Actividades</a>
+                    <a href="pf03_proyectos.html">Proyectos</a>
+                </div>
+            </div>
+            
+            <a href="certificaciones.html" class="nav-link-item active" style="color: var(--primary);">Certificaciones</a>
+
+            <div class="dropdown">
+                <a href="#"><i class="fa-solid fa-trophy"></i> HALL OF FAME <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="actividades/act08.html">SQL Injection</a>
+                </div>
+            </div>
+
+            <a href="inicio.html#contacto" class="nav-link-item">Contacto</a>
+            <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
+        </div>
+    </nav>
+
+    <header class="hero-parcial">
+        <h1>Formación Continua y Certificaciones</h1>
+        <p>Reflexión profesional y evidencia formal del aprendizaje adquirido mediante plataformas líderes en la industria de la ciberseguridad.</p>
+    </header>
+
+    <div class="section-container">
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_intro_cyber.png" alt="Badge Introducción a la Ciberseguridad" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Cisco'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Introducción a la Ciberseguridad</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>Este curso marcó el punto de partida estructural para mi formación en seguridad de la información. Me permitió comprender el panorama global de las amenazas, desde el funcionamiento de un malware básico hasta las complejidades de la ingeniería social. El reto principal fue dimensionar cómo la Tríada CIA (Confidencialidad, Integridad y Disponibilidad) se ve amenazada diariamente por vectores de ataque que, en muchas ocasiones, dependen netamente del eslabón humano.<br><br>En el ámbito práctico, estos fundamentos fueron vitales para el desarrollo de mi proyecto de Simulación de Phishing (PR02), ya que me otorgaron el vocabulario técnico y la perspectiva estratégica para diseñar escenarios realistas. A nivel personal, esta certificación me hizo ser mucho más consciente de mi propia huella digital y de la importancia de implementar principios como el de "Zero Trust" incluso en mis configuraciones cotidianas.</p>
+                </div>
+
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/0fd7b8cf-0c63-47f4-8ff4-01d0a5830e7d" target="_blank" class="btn-action btn-credly">
+                        <i class="fa-solid fa-award"></i> Validar en Credly
+                    </a>
+                    <a href="evidencias/IntroductionToCybersecurity.pdf" download class="btn-action btn-pdf">
+                        <i class="fa-solid fa-download"></i> Descargar PDF
+                    </a>
+                    <button class="btn-action btn-preview" onclick="togglePDF(1)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-1" class="pdf-viewer"><iframe src="evidencias/IntroductionToCybersecurity.pdf"></iframe></div>
+            </div>
+        </article>
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_networking_basics.png" alt="Badge Networking Basics" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Cisco'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Conceptos Básicos de Redes</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>La seguridad informática es inoperante sin un conocimiento profundo de cómo viajan los datos. Esta certificación me proporcionó un dominio técnico sobre los modelos OSI y TCP/IP, protocolos de enrutamiento y las bases del subnetting. El mayor reto académico durante este curso fue la abstracción de las capas inferiores del modelo de red y el entendimiento preciso del encapsulamiento de datos.<br><br>Profesionalmente, esta habilidad se tradujo en una ventaja competitiva al momento de realizar la configuración avanzada de cortafuegos mediante iptables (Actividad 04). Entender la diferencia entre las tramas, paquetes y segmentos fue lo que me permitió crear reglas de filtrado eficientes y seguras. Considero que esta certificación es la columna vertebral de cualquier profesional de TI, ya que no se puede proteger una red si no se sabe cómo está interconectada.</p>
+                </div>
+
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/a5b6e4fe-6ae3-4572-b993-c7e169e16561" target="_blank" class="btn-action btn-credly"><i class="fa-solid fa-award"></i> Validar en Credly</a>
+                    <a href="evidencias/ConceptosBasicosRedes.pdf" download class="btn-action btn-pdf"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+                    <button class="btn-action btn-preview" onclick="togglePDF(2)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-2" class="pdf-viewer"><iframe src="evidencias/ConceptosBasicosRedes.pdf"></iframe></div>
+            </div>
+        </article>
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_network_devices.png" alt="Badge Dispositivos de Red" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Cisco'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Dispositivos de Red y Configuración Inicial</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>Pasar de la teoría a la práctica en la línea de comandos del Cisco IOS fue una experiencia transformadora. Este módulo me retó a memorizar y ejecutar comandos estructurados para asegurar switches y routers, establecer conexiones SSH y encriptar contraseñas. Al principio, la falta de una interfaz gráfica resultaba intimidante, pero rápidamente se convirtió en un entorno de trabajo ágil.<br><br>Aplicando este conocimiento al mundo real, logré diseñar e implementar topologías seguras y túneles IPSec Site-to-Site (Actividad 06). Me brindó la confianza técnica para administrar hardware empresarial, comprendiendo que una configuración deficiente en un switch de acceso puede comprometer a toda la organización, independientemente de los firewalls perimetrales que existan.</p>
+                </div>
+
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/53deb8a1-eb0f-4fa8-9d57-c8b07e2df995" target="_blank" class="btn-action btn-credly"><i class="fa-solid fa-award"></i> Validar en Credly</a>
+                    <a href="evidencias/DispositivosDeRed_ConfiguraciónInicial.pdf" download class="btn-action btn-pdf"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+                    <button class="btn-action btn-preview" onclick="togglePDF(3)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-3" class="pdf-viewer"><iframe src="evidencias/DispositivosDeRed_ConfiguraciónInicial.pdf"></iframe></div>
+            </div>
+        </article>
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_endpoint_security.png" alt="Badge Seguridad en Terminales" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Cisco'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Seguridad en Terminales (Endpoint Security)</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>Con el auge del trabajo remoto y las arquitecturas en la nube, el perímetro de red tradicional ha desaparecido; hoy, el perímetro es el endpoint. Esta certificación se centró en la protección de sistemas operativos Windows y Linux mediante el análisis de procesos, el control de acceso basado en roles y la implementación de antimalware host-based.<br><br>El desafío más significativo fue comprender las políticas de grupo y el balance entre seguridad extrema y usabilidad funcional. En la práctica, esto fue fundamental para el desarrollo de los pentestings en laboratorio (como en la Actividad 09: My File Server 1), donde logré identificar cómo configuraciones débiles en un endpoint permiten la escalada de privilegios locales a través de exploits del kernel como "Dirty COW".</p>
+                </div>
+
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/985f5c4c-242c-465f-8384-2a0b83d1db61" target="_blank" class="btn-action btn-credly"><i class="fa-solid fa-award"></i> Validar en Credly</a>
+                    <a href="evidencias/SeguridadEnTerminales.pdf" download class="btn-action btn-pdf"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+                    <button class="btn-action btn-preview" onclick="togglePDF(4)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-4" class="pdf-viewer"><iframe src="evidencias/SeguridadEnTerminales.pdf"></iframe></div>
+            </div>
+        </article>
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_network_defense.png" alt="Badge Network Defense" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Network+Defense'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Defensa de Red (Network Defense)</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>La certificación en Defensa de Red consolidó mis competencias para diseñar e implementar arquitecturas de seguridad robustas capaces de mitigar intrusiones en tiempo real. Durante este bloque formativo, el desafío principal radicó en dominar la configuración de sistemas de detección y prevención de intrusos (IDS/IPS), así como la administración de cortafuegos con políticas estrictas de control de acceso. Comprender la diferencia operativa entre la inspección de paquetes con estado y sin estado supuso un reto conceptual profundo, pero fundamental para mitigar vectores de ataque avanzados de denegación de servicio (DDoS) o movimientos laterales.<br><br>En el ámbito práctico, los conocimientos adquiridos potenciaron de manera directa mi desempeño en laboratorios de configuración perimetral, permitiéndome traducir políticas de filtrado complejas en sintaxis limpia de iptables y estructurar redes segmentadas con zonas desmilitarizadas (DMZ) eficientes. Asimismo, esta formación complementó mi comprensión técnica al desplegar túneles IPSec VPN seguros, garantizando que el tráfico interconectado mantenga los más altos estándares de confidencialidad e integridad. A nivel profesional, esta insignia valida mi capacidad para pasar de una postura reactiva a una estrategia proactiva de defensa profunda, un pilar indispensable para cualquier analista de ciberseguridad enfocado en salvaguardar la infraestructura crítica de una organización frente al panorama moderno de amenazas corporativas.</p>
+                </div>
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/d63c15b1-0b37-434d-92c6-7b6f7df3df4a" target="_blank" class="btn-action btn-credly"><i class="fa-solid fa-award"></i> Validar en Credly</a>
+                    <a href="evidencias/DefensaDeRed.pdf" download class="btn-action btn-pdf"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+                    <button class="btn-action" style="background: #eee; color: #333;" onclick="togglePDF(5)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-5" class="pdf-viewer"><iframe src="evidencias/DefensaDeRed.pdf"></iframe></div>
+            </div>
+        </article>
+
+        <article class="cert-card">
+            <div class="cert-badge-col">
+                <img src="img/badge_junior_analyst.png" alt="Badge Analista Junior" onerror="this.src='https://via.placeholder.com/180x180?text=Badge+Cisco'">
+            </div>
+            <div class="cert-info-col">
+                <h2 class="cert-title">Carrera Profesional de Analista Junior en Ciberseguridad</h2>
+                <span class="cert-issuer">Cisco Networking Academy</span>
+                
+                <div class="reflection-block">
+                    <h3><i class="fa-solid fa-pen-nib"></i> Reflexión Profesional</h3>
+                    <p>La obtención de este certificado representó la consolidación y síntesis de los módulos anteriores. Fue un proceso exhaustivo que demandó integrar conocimientos de redes, sistemas operativos, análisis forense y cumplimiento normativo. El principal reto fue resolver laboratorios de evaluación integradores donde se presentaban escenarios complejos con múltiples variables técnicas.<br><br>Personalmente, es uno de los hitos académicos más gratificantes del semestre. Validó formalmente mis capacidades para fungir como primer respondiente frente a alertas de seguridad, documentar incidentes y aplicar procedimientos estandarizados. Con esta insignia, he adquirido una visión clara del camino profesional en el sector corporativo y la seguridad de la información aplicada a empresas globales.</p>
+                </div>
+
+                <div class="evidence-actions">
+                    <a href="https://www.credly.com/badges/6b720c2c-47a7-450b-8f93-880babc50498" target="_blank" class="btn-action btn-credly"><i class="fa-solid fa-award"></i> Validar en Credly</a>
+                    <a href="evidencias/AnalistaJunior.pdf" download class="btn-action btn-pdf"><i class="fa-solid fa-download"></i> Descargar PDF</a>
+                    <button class="btn-action btn-preview" onclick="togglePDF(6)"><i class="fa-solid fa-eye"></i> Vista Previa</button>
+                </div>
+                <div id="viewer-6" class="pdf-viewer"><iframe src="evidencias/AnalistaJunior.pdf"></iframe></div>
+            </div>
+        </article>
+
+    </div>
+
+    <footer>
+        <p>© 2026 David Beltrán Reyna | Ingeniería en Tecnologías de la Información | UPSLP</p>
+        <p>Portafolio de Seguridad Informática - Formación Profesional Continua</p>
+    </footer>
+
+    <script>
+        if (sessionStorage.getItem('loggedin') !== 'true') { window.location.href = "index.html"; }
+        
+        function togglePDF(id) {
+            const viewer = document.getElementById('viewer-' + id);
+            viewer.style.display = (viewer.style.display === "none" || viewer.style.display === "") ? "block" : "none";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const trigger = dropdown.querySelector('a');
+                const content = dropdown.querySelector('.dropdown-content');
+
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.querySelectorAll('.dropdown-content').forEach(other => {
+                        if (other !== content) other.classList.remove('show');
+                    });
+                    content.classList.toggle('show');
+                });
+            });
+
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-content').forEach(content => {
+                    content.classList.remove('show');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
