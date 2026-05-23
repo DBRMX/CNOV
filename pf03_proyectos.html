@@ -122,6 +122,9 @@
         
         .btn-action:hover { opacity: 0.8; transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
 
+        .pdf-viewer { display: none; margin-top: 20px; width: 100%; height: 600px; border: 2px solid var(--bg); border-radius: 10px; overflow: hidden; }
+        .pdf-viewer iframe { width: 100%; height: 100%; border: none; }
+
         footer { background: #012a31; color: white; padding: 3rem 10%; text-align: center; margin-top: 5rem; }
     </style>
      <script>
@@ -170,8 +173,6 @@
                 </div>
             </div>
 
-            <a href="#" class="nav-link-item">Final</a>
-            <a href="#contacto" class="nav-link-item">Contacto</a>
             <a href="#" onclick="sessionStorage.clear(); window.location.href='index.html';" class="nav-link-item" style="color:#ff7675">Salir</a>
         </div>
     </nav>
@@ -186,30 +187,29 @@
         <article class="activity-card">
             <div class="activity-header">
                 <div class="activity-title">
-                    <h2>PR</h2>
+                    <h2>PR03: Implementación SGSI ISO/IEC 27001:2022 (Caso SEER)</h2>
                 </div>
-                <div class="activity-date">Fecha: 2026</div>
+                <div class="activity-date">Fecha: 19/05/2026</div>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-bullseye"></i> Indicaciones</h3>
-                <p></p>
+                <p>Desarrollar un Sistema de Gestión de Seguridad de la Información (SGSI) alineado a la normativa internacional ISO/IEC 27001:2022. El proyecto debe aplicarse a un entorno real, en este caso el Sistema Educativo Estatal Regular (SEER) de San Luis Potosí, abarcando desde la definición del alcance hasta la gestión de riesgos en servicios externos.</p>
             </div>
 
             <div class="info-block">
                 <h3><i class="fa-solid fa-microchip"></i> Explicación Técnica</h3>
-                <p></p>
+                <p>El proyecto establece un marco gobernante certificable. Se desarrolló la <em>Cláusula de Alcance</em>, así como la <em>Planificación y Gestión de Riesgos</em> centrada en el uso inseguro de servicios en la nube (ej. Office 365). Se diseñaron políticas estrictas, imponiendo controles como el uso obligatorio de cuentas institucionales, la autenticación de dos factores (2FA) y el monitoreo continuo para mitigar vulnerabilidades como el robo de credenciales o el phishing.</p>
             </div>
 
             <div class="evidence-actions">
-                <a href="" class="btn-action btn-view">
+                <a href="proyectos/pr03.html" class="btn-action btn-view">
                     <i class="fa-solid fa-file-lines"></i> Leer Detalles
                 </a>
                 
-                <a href="" download class="btn-action btn-download-pdf">
+                <a href="evidencias/PR03-Equipo1.pdf" download class="btn-action btn-download-pdf">
                     <i class="fa-solid fa-file-pdf"></i> Descargar Original
                 </a>
-            </div>
         </article>
 
     </div>
