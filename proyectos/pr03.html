@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PR03 - ISO 27001:2022 en el SEER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --c1: #2b8798;
+      --c2: #5bafc2;
+      --c3: #065c6a;
+      --c4: #8bc9d8;
+      --c5: #b6d3dc;
+      --bg: #eef7fa;
+      --white: #ffffff;
+      --text: #10323a;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 22px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    header {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--c3), var(--c1), var(--c2));
+      color: white;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      overflow: hidden;
+    }
+
+    header::before,
+    header::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      filter: blur(10px);
+    }
+
+    header::before {
+      width: 400px;
+      height: 400px;
+      top: -100px;
+      right: -100px;
+    }
+
+    header::after {
+      width: 300px;
+      height: 300px;
+      bottom: -80px;
+      left: -80px;
+    }
+
+    .hero {
+      max-width: 1200px;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      font-weight: 800;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      opacity: .95;
+    }
+
+    .glass {
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: var(--radius);
+      padding: 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card h2 {
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+    }
+
+    .hero-card ul {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-card li {
+      background: rgba(255,255,255,.12);
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(6,92,106,.94);
+      backdrop-filter: blur(10px);
+      padding: 14px 24px;
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 10px 16px;
+      border-radius: 999px;
+      transition: .3s;
+      font-size: .95rem;
+    }
+
+    nav a:hover {
+      background: rgba(255,255,255,.15);
+    }
+
+    section {
+      padding: 80px 8%;
+    }
+
+    .section-title {
+      font-size: 2.7rem;
+      color: var(--c3);
+      margin-bottom: 18px;
+      font-weight: 800;
+    }
+
+    .section-sub {
+      max-width: 900px;
+      line-height: 1.9;
+      margin-bottom: 40px;
+      font-size: 1.05rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      transition: .35s;
+      border: 1px solid rgba(0,0,0,.04);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card h3 {
+      color: var(--c3);
+      margin-bottom: 14px;
+      font-size: 1.35rem;
+    }
+
+    .card p,
+    .card li {
+      line-height: 1.8;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--c4);
+      color: var(--c3);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: .85rem;
+      margin-bottom: 14px;
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: white;
+      box-shadow: var(--shadow);
+    }
+
+    th {
+      background: var(--c3);
+      color: white;
+      padding: 16px;
+      text-align: left;
+      font-size: .95rem;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #e8eef0;
+      line-height: 1.7;
+      vertical-align: top;
+    }
+
+    tr:hover {
+      background: #f5fbfd;
+    }
+
+    .timeline {
+      border-left: 4px solid var(--c2);
+      padding-left: 24px;
+      display: grid;
+      gap: 26px;
+    }
+
+    .timeline-item {
+      background: white;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .timeline-item::before {
+      content: "";
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--c3);
+      position: absolute;
+      left: -33px;
+      top: 30px;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, var(--c3), var(--c1));
+      color: white;
+      border-radius: 28px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .stat {
+      background: rgba(255,255,255,.12);
+      padding: 22px;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .stat h3 {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .two-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .risk-box {
+      background: linear-gradient(135deg, #ffffff, #edf8fb);
+      border-left: 8px solid var(--c2);
+    }
+
+    footer {
+      background: var(--c3);
+      color: white;
+      padding: 60px 8%;
+      text-align: center;
+    }
+
+    footer h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .bibliography li {
+      margin-bottom: 12px;
+      line-height: 1.8;
+    }
+
+    canvas {
+      background: white;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-top: 30px;
+    }
+
+    @media(max-width: 900px){
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+
+      section {
+        padding: 70px 6%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hero">
+    <div>
+      <span class="badge">PR03 · ISO/IEC 27001:2022 · SEER</span>
+      <h1>Sistema de Gestión de Seguridad de la Información en el SEER</h1>
+      <p>
+        Implementación integral de las cláusulas ISO/IEC 27001:2022 dentro del Departamento de Recursos Humanos del Sistema Educativo Estatal Regular (SEER) de San Luis Potosí, incluyendo análisis de riesgos, liderazgo, operación, evaluación del desempeño y mejora continua.
+      </p>
+    </div>
+
+    <div class="glass hero-card">
+      <h2>Equipo de Trabajo</h2>
+      <ul>
+        <li>Aguilar Carrizales Miguel Ángel - 182318</li>
+        <li>Aznar Cuevas Luis Eduardo - 179880</li>
+        <li>Beltrán Reyna David - 183636</li>
+        <li>Gómez Arreguín Donaldo Demián - 179822</li>
+        <li>Morales Hernández Roberto Emiliano - 182377</li>
+        <li>Rosales Ramírez Josué Emiliano - 181760</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="#alcance">Alcance</a>
+  <a href="#referencias">Normativas</a>
+  <a href="#terminos">Términos</a>
+  <a href="#contexto">Contexto</a>
+  <a href="#liderazgo">Liderazgo</a>
+  <a href="#riesgos">Riesgos</a>
+  <a href="#soporte">Soporte</a>
+  <a href="#operacion">Operación</a>
+  <a href="#evaluacion">Evaluación</a>
+  <a href="#mejora">Mejora</a>
+  <a href="#bibliografia">Bibliografía</a>
+</nav>
+
+<section id="alcance">
+  <h2 class="section-title">SECCIÓN I · Alcance</h2>
+  <p class="section-sub">
+    El Sistema Educativo Estatal Regular (SEER) administra información académica y administrativa sensible relacionada con docentes, alumnos y personal institucional. El SGSI se implementa específicamente en el Departamento de Recursos Humanos para proteger la confidencialidad, integridad y disponibilidad de los activos de información.
+  </p>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Contexto Organizacional</h3>
+      <p>
+        El SEER es una dependencia gubernamental encargada de gestionar, supervisar y elevar la calidad académica y administrativa de instituciones educativas de nivel básico y medio superior en San Luis Potosí.
+      </p>
+      <br>
+      <p><strong>Visión:</strong> Consolidar una educación integral, moderna y de calidad.</p>
+      <p><strong>Misión:</strong> Participar en políticas educativas orientadas a elevar la calidad académica y administrativa.</p>
+    </div>
+
+    <div class="card">
+      <h3>Delimitación del SGSI</h3>
+      <ul>
+        <li>Administración de remuneraciones.</li>
+        <li>Control de incidencias.</li>
+        <li>Gestión de seguridad social.</li>
+        <li>Emisión de constancias.</li>
+        <li>Procesos de selección y promoción.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="referencias">
+  <h2 class="section-title">SECCIÓN II · Referencias Normativas</h2>
+
+  <div class="grid grid-2">
+    <div class="card risk-box">
+      <h3>ISO/IEC 27001:2022</h3>
+      <p>Norma principal certificable utilizada para establecer los requisitos formales del SGSI y el ciclo de mejora continua.</p>
+    </div>
+
+    <div class="card risk-box">
+      <h3>ISO/IEC 27002:2022</h3>
+      <p>Catálogo de controles de seguridad aplicados a activos críticos y buenas prácticas de protección.</p>
+    </div>
+
+    <div class="card risk-box">
+      <h3>ISO/IEC 27005:2018</h3>
+      <p>Metodología estructurada para la gestión y tratamiento de riesgos de seguridad de la información.</p>
+    </div>
+
+    <div class="card risk-box">
+      <h3>ISO/IEC 27017 & 27018</h3>
+      <p>Normativas enfocadas en controles para servicios en la nube y protección de información personal identificable.</p>
+    </div>
+  </div>
+</section>
+
+<section id="terminos">
+  <h2 class="section-title">SECCIÓN III · Términos y Definiciones</h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Activo</h3>
+      <p>Elemento con valor para la organización que requiere protección.</p>
+    </div>
+
+    <div class="card">
+      <h3>Amenaza</h3>
+      <p>Causa potencial de un incidente que puede generar daño a la organización.</p>
+    </div>
+
+    <div class="card">
+      <h3>Confidencialidad</h3>
+      <p>Propiedad que garantiza que la información solo sea accesible para usuarios autorizados.</p>
+    </div>
+
+    <div class="card">
+      <h3>Análisis de Riesgos</h3>
+      <p>Proceso para identificar, comprender y tratar riesgos relacionados con la información.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contexto">
+  <h2 class="section-title">SECCIÓN IV · Contexto de la Organización</h2>
+
+  <div class="highlight">
+    <h2>Inventario de Activos Críticos</h2>
+    <p>
+      Se clasificaron 40 activos internos y externos relacionados con la operación del Departamento de Recursos Humanos.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <h3>40</h3>
+        <p>Activos críticos</p>
+      </div>
+
+      <div class="stat">
+        <h3>20+</h3>
+        <p>Departamentos involucrados</p>
+      </div>
+
+      <div class="stat">
+        <h3>CIA</h3>
+        <p>Modelo de protección</p>
+      </div>
+
+      <div class="stat">
+        <h3>365</h3>
+        <p>Servicios cloud protegidos</p>
+      </div>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Activo</th>
+        <th>Clasificación CIA</th>
+        <th>Riesgo Principal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ACT-03</td><td>Servidores escuela</td><td>C-Alta / I-Alta / D-Alta</td><td>Fuga de PII</td></tr>
+      <tr><td>ACT-05</td><td>Gestor de base de datos</td><td>C-Alta / I-Alta / D-Alta</td><td>Corrupción de registros</td></tr>
+      <tr><td>ACT-06</td><td>Datos alumnos/maestros</td><td>C-Alta / I-Alta / D-Media</td><td>Robo de identidad</td></tr>
+      <tr><td>ACT-11</td><td>Equipos de red</td><td>C-Baja / I-Baja / D-Alta</td><td>Caída de conectividad</td></tr>
+      <tr><td>ACT-21</td><td>Licencia Office 365</td><td>C-Alta / I-Alta / D-Alta</td><td>Secuestro de sesión</td></tr>
+      <tr><td>ACT-37</td><td>Plataformas SEP/SIGED</td><td>C-Alta / I-Alta / D-Alta</td><td>Integridad de expedientes</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="liderazgo">
+  <h2 class="section-title">SECCIÓN V · Liderazgo</h2>
+
+  <div class="two-columns">
+    <div class="card">
+      <h3>Políticas Generales</h3>
+      <ul>
+        <li>Integridad y disponibilidad de bases de datos.</li>
+        <li>Respaldos periódicos automatizados.</li>
+        <li>Protección de datos personales.</li>
+        <li>Cumplimiento de estándares cloud.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Controles Estratégicos</h3>
+      <ul>
+        <li>Contraseñas complejas.</li>
+        <li>2FA obligatorio.</li>
+        <li>Bloqueo de USB.</li>
+        <li>Monitoreo de tráfico.</li>
+        <li>Capacitación continua.</li>
+      </ul>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Política</th>
+        <th>Estándar</th>
+        <th>Procedimiento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Control de acceso</td>
+        <td>Contraseñas 12+ caracteres</td>
+        <td>Cambio cada 90 días</td>
+      </tr>
+      <tr>
+        <td>Seguridad en equipos</td>
+        <td>Software autorizado</td>
+        <td>Bloqueo de USB</td>
+      </tr>
+      <tr>
+        <td>Uso de Office 365</td>
+        <td>Cuenta institucional</td>
+        <td>2FA obligatorio</td>
+      </tr>
+      <tr>
+        <td>Acceso de terceros</td>
+        <td>Cláusulas NDA</td>
+        <td>Revisión legal</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="riesgos">
+  <h2 class="section-title">SECCIÓN VI · Planificación y Gestión de Riesgos</h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Riesgos Internos</h3>
+      <ul>
+        <li>P-I1 · Acceso no autorizado a nómina.</li>
+        <li>P-I2 · Malware en PCs.</li>
+        <li>P-I3 · Pérdida de datos.</li>
+        <li>P-I5 · Exfiltración por redes sociales.</li>
+        <li>P-I9 · Explotación de vulnerabilidades.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Riesgos Externos</h3>
+      <ul>
+        <li>P-E1 · Secuestro de sesión en Office 365.</li>
+        <li>P-E4 · Intercepción de datos.</li>
+        <li>P-E8 · Compromiso de APIs.</li>
+        <li>P-E9 · Reverse Tabnabbing.</li>
+        <li>P-E10 · Malware externo.</li>
+      </ul>
+    </div>
+  </div>
+
+  <canvas id="riskChart"></canvas>
+</section>
+
+<section id="soporte">
+  <h2 class="section-title">SECCIÓN VII · Soporte</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>Capacitación y Concientización</h3>
+      <p>
+        Se realizó una sesión de capacitación orientada a fortalecer la cultura de seguridad dentro del Departamento de Recursos Humanos.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Ingeniería Social y Phishing</h3>
+      <p>
+        Se desarrollaron simulacros de phishing y análisis de ataques Reverse Tabnabbing para entrenar al personal.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Control de Acceso</h3>
+      <p>
+        Se implementó autenticación multifactor y políticas estrictas de gestión de identidades.
+      </p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Seguridad Física</h3>
+      <p>
+        Aplicación de política de escritorio limpio y control documental físico.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="operacion">
+  <h2 class="section-title">SECCIÓN VIII · Operación</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>Paso 1 · Acceso institucional</h3>
+      <p>Apertura de Office 365 utilizando exclusivamente cuentas institucionales del SEER.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Paso 2 · Activación de 2FA</h3>
+      <p>Configuración obligatoria de autenticación multifactor como capa adicional de seguridad.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Paso 3 · Microsoft Authenticator</h3>
+      <p>Instalación de la aplicación oficial para validación de identidad.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Paso 4 · Vinculación</h3>
+      <p>Escaneo de código QR y asociación de cuentas institucionales.</p>
+    </div>
+
+    <div class="timeline-item">
+      <h3>Paso 5 · Validación</h3>
+      <p>Aprobación de notificaciones push y verificación segura del acceso.</p>
+    </div>
+  </div>
+</section>
+
+<section id="evaluacion">
+  <h2 class="section-title">SECCIÓN IX · Evaluación del Desempeño</h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>Metodología</h3>
+      <ul>
+        <li>Checklist de controles.</li>
+        <li>Entrevistas técnicas.</li>
+        <li>Revisión documental.</li>
+        <li>Evidencia física y digital.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Resultados</h3>
+      <ul>
+        <li>18 controles evaluados.</li>
+        <li>67% cumplimiento total.</li>
+        <li>22% cumplimiento parcial.</li>
+        <li>11% no conformidades.</li>
+      </ul>
+    </div>
+  </div>
+
+  <canvas id="performanceChart"></canvas>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Hallazgo</th>
+        <th>Impacto</th>
+        <th>Prioridad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Falta de plan de continuidad</td>
+        <td>Indisponibilidad de servicios críticos</td>
+        <td>Alta</td>
+      </tr>
+      <tr>
+        <td>Gestión de incidentes incompleta</td>
+        <td>Respuesta tardía</td>
+        <td>Media</td>
+      </tr>
+      <tr>
+        <td>Capacitación incompleta</td>
+        <td>Desconocimiento de políticas</td>
+        <td>Media</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="mejora">
+  <h2 class="section-title">SECCIÓN X · Mejora Continua</h2>
+
+  <div class="highlight">
+    <h2>Incidente de Phishing y MFA Fatigue</h2>
+    <p>
+      El 18 de mayo de 2026 se registró un incidente de phishing dirigido a personal administrativo del SEER. Un atacante logró acceso temporal a una cuenta institucional mediante técnicas de ingeniería social y aprobación indebida de autenticación multifactor.
+    </p>
+  </div>
+
+  <div class="grid grid-2" style="margin-top:30px;">
+    <div class="card">
+      <h3>Consecuencias</h3>
+      <ul>
+        <li>Exposición de información confidencial.</li>
+        <li>Accesos no autorizados.</li>
+        <li>Compromiso temporal de cuentas.</li>
+        <li>Riesgo de propagación interna.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Medidas de Contención</h3>
+      <ul>
+        <li>Bloqueo inmediato de cuentas.</li>
+        <li>Revocación de tokens.</li>
+        <li>Escaneo antimalware.</li>
+        <li>Monitoreo reforzado.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Causa Raíz</h3>
+      <p>
+        Falta de concientización del usuario frente a ataques de ingeniería social, phishing y solicitudes falsas de autenticación.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Mejoras Implementadas</h3>
+      <ul>
+        <li>Conditional Access.</li>
+        <li>Safe Links y Safe Attachments.</li>
+        <li>Monitoreo SIEM.</li>
+        <li>Campañas permanentes de capacitación.</li>
+      </ul>
+    </div>
+  </div>
+
+  <canvas id="improvementChart"></canvas>
+</section>
+
+<section id="bibliografia">
+  <h2 class="section-title">Bibliografía</h2>
+
+  <div class="card bibliography">
+    <ul>
+      <li>ISO/IEC 27001:2022 - Information Security Management Systems.</li>
+      <li>ISO/IEC 27002:2022 - Information Security Controls.</li>
+      <li>ISO 31000:2018 - Risk Management Guidelines.</li>
+      <li>Microsoft Learn - Microsoft 365 Security Documentation.</li>
+      <li>NIST SP 800-53 Rev. 5.</li>
+      <li>NIST SP 800-207 - Zero Trust Architecture.</li>
+      <li>FIRST.org - CVSS v3.1.</li>
+      <li>Whitman & Mattord - Principles of Information Security.</li>
+      <li>Stallings & Brown - Computer Security: Principles and Practice.</li>
+      <li>Calder - ISO 27001/ISO 27002: A Pocket Guide.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <h2>ISO 27001:2022 · SEER</h2>
+  <p>
+    Sistema de Gestión de Seguridad de la Información desarrollado para el Departamento de Recursos Humanos del Sistema Educativo Estatal Regular.
+  </p>
+  <br>
+  <p>Universidad Politécnica de San Luis Potosí · CNO V · Seguridad Informática</p>
+</footer>
+
+<script>
+  const riskCtx = document.getElementById('riskChart');
+  new Chart(riskCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Phishing', 'Malware', 'Accesos', 'APIs', 'Disponibilidad', 'Exfiltración'],
+      datasets: [{
+        label: 'Nivel de Riesgo',
+        data: [15, 10, 14, 12, 11, 13],
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        }
+      }
+    }
+  });
+
+  const performanceCtx = document.getElementById('performanceChart');
+  new Chart(performanceCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Cumplimiento Total', 'Cumplimiento Parcial', 'No Conformidades'],
+      datasets: [{
+        data: [67, 22, 11]
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
+  const improvementCtx = document.getElementById('improvementChart');
+  new Chart(improvementCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Usuarios Capacitados', 'Phishing Detectado', 'Reducción de Clics', 'Accesos Bloqueados'],
+      datasets: [{
+        label: 'Resultados %',
+        data: [100, 87, 75, 100]
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
